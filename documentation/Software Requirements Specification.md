@@ -19,17 +19,23 @@ ______________
 
 ## System features
 
-### Search and view detail information about TV series
+### 1. Search and view detail information about TV series
 
 The mode is designed to search TV series and view detail information about the series selected by the user.
   
 Main scenario:
 * User enters the name of the series in search box and presses button “Search”;
-* Application displays a list of series found in the database of myshows.me.
+* Application displays a list of series found in the database of myshows.me;
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG" alt="Picture 01" width="800"/>
 
-* User chooses wanted series (all names are clickable).
+* User chooses wanted series (all names are clickable);
 * Application displays detailed information about the series (includes the name of the series, poster, description, current status, country of production, number of seasons, rating on kinopoisk.ru and imdb.com).
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/004.JPG" alt="Picture 02" width="800"/>
+  
+### 2. Adding TV series to own watch lists
+
+If user logs into the app, he can add the series to his own lists (two buttons are available: "Going to watch" and "Watched all"):
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/005.JPG" alt="Picture 03" width="800"/>

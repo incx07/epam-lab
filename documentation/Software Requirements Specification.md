@@ -16,3 +16,13 @@ Users can:
   
 Information about users and added series is stored in a separate database.
 ______________
+
+## System features
+
+The mode is designed to search TV series and view detail information about the series selected by the user.
+  
+Main scenario:
+* User enters the name of the series in search box and presses button “Search”;
+* Application displays a list of series found in the database of myshows.me.
+
+![alt-текст](https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG "Picture 01")

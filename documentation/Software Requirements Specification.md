@@ -19,6 +19,8 @@ ______________
 
 ## System features
 
+### Search and view detail information about TV series
+
 The mode is designed to search TV series and view detail information about the series selected by the user.
   
 Main scenario:
@@ -27,7 +29,7 @@ Main scenario:
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG" alt="Picture 01" width="800"/>
 
-![Picture 01](https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG "Picture 01")
-
 * User chooses wanted series (all names are clickable).
 * Application displays detailed information about the series (includes the name of the series, poster, description, current status, country of production, number of seasons, rating on kinopoisk.ru and imdb.com).
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/004.JPG" alt="Picture 02" width="800"/>

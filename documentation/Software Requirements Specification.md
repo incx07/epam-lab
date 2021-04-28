@@ -25,7 +25,7 @@ Main scenario:
 * User enters the name of the series in search box and presses button “Search”;
 * Application displays a list of series found in the database of myshows.me.
 
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG" alt="Picture 01" width="500"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG" alt="Picture 01" width="800"/>
 
 ![Picture 01](https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG "Picture 01")
 

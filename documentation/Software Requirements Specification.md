@@ -25,4 +25,9 @@ Main scenario:
 * User enters the name of the series in search box and presses button “Search”;
 * Application displays a list of series found in the database of myshows.me.
 
-![alt-текст](https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG "Picture 01")
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG" alt="Picture 01" width="500"/>
+
+![Picture 01](https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG "Picture 01")
+
+* User chooses wanted series (all names are clickable).
+* Application displays detailed information about the series (includes the name of the series, poster, description, current status, country of production, number of seasons, rating on kinopoisk.ru and imdb.com).

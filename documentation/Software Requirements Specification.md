@@ -10,8 +10,8 @@ ______________
   
 Users can:
 * Search and view detail information about any TV series;
-* Add TV series to their own watch lists (“Going to watch”, “Watched all”);
-* Delete the records from list “Going to watch”;
+* Add TV series to their own watch lists (“Going to watch” and “Watched all”);
+* Delete records from list “Going to watch”;
 * Set the rating for the series from list “Watched all”.
   
 Information about users and added series is stored in a separate database.
@@ -21,10 +21,10 @@ ______________
 
 ### 1. Search and view detail information about TV series
 
-The mode is designed to search TV series and view detail information about the series selected by the user.
+The mode is designed to search a TV series and view detail information about a series selected by user.
   
 Main scenario:
-* User enters the name of the series in search box and presses button “Search”;
+* User enters the name of the series in search box and presses the “Search” button;
 * Application displays a list of series found in the database of myshows.me;
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG" alt="Picture 01" width="800"/>
@@ -40,14 +40,14 @@ If user logs into the app, he can add the series to his own lists (two buttons a
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/005.JPG" alt="Picture 03" width="800"/>
   
-Main scenario (when user clicks button "Going to watch"):
+Main scenario (when user clicks the "Going to watch" button):
 * The series is added to the "Going to watch" list (available on the main page);
 * The "Going to watch" button becomes unavailable (disappears);
 * On the page of the series appears the inscription "I am going to watch this show!".
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/006.JPG" alt="Picture 04" width="800"/>
 
-Main scenario (when user clicks button "Watched all"):
+Main scenario (when user clicks the "Watched all" button):
 * The series is added to the "Watched all" list (available on the main page);
 * If the series was previously added to the "Going to watch" list - it is removed from there;
 * Buttons "Watched all" and "Going to watch" become unavailable (disappear);
@@ -63,6 +63,25 @@ If user is not logged into the application - he has access only to search and vi
 
 If user has logged into the application - on the main page he has access to 2 columns with lists of TV series: "Going to watch" and "Watched all". In each column the maximum number of records is 5. If the number of added series is more than 5, pagination buttons become available. 
   
-User can remove the records from the "Going to watch" list (by clicking on the "cross"). For a series from the "Watched all" list, user can rate it by clicking the button "Change".
+User can remove records from the "Going to watch" list (by clicking on the "cross" button). For a series from the "Watched all" list, user can rate it (by clicking the "Change" button).
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/008.JPG" alt="Picture 07" width="800"/>
+
+### 4. Delete records from the “Going to watch” list
+
+Main scenario:
+* user clicks the "cross" button in the "Going to watch" column;
+* The series is removed from the list;
+* On the page of the series, the "Going to watch" button becomes available (user can add the series back). 
+
+### 5. Set rating for the series from the “Watched all” list
+
+* User clicks the "Change" button in the "Watched all" column;
+* In the drop-down list, user selects a rating in the range from 1 to 5 (by default the series has no rating);
+* User clicks the "Save" button;
+* The selected rating is saved;
+* User can change the rating by clicking on the "Change" button.
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="600"/>
+  
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="600"/>

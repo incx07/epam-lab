@@ -39,3 +39,18 @@ Main scenario:
 If user logs into the app, he can add the series to his own lists (two buttons are available: "Going to watch" and "Watched all"):
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/005.JPG" alt="Picture 03" width="800"/>
+  
+Main scenario (when user clicks button "Going to watch"):
+* The series is added to the "Going to watch" list (available on the main page);
+* The "Going to watch" button becomes unavailable (disappears);
+* On the page of the series appears the inscription "I am going to watch this show!".
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/006.JPG" alt="Picture 04" width="800"/>
+
+Main scenario (when user clicks button "Watched all"):
+* The series is added to the "Watched all" list (available on the main page);
+* If the series was previously added to the "Going to watch" list - it is removed from there;
+* Buttons "Watched all" and "Going to watch" become unavailable (disappear);
+* On the page of the series appears the inscription "I fully watched this show!".
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/007.JPG" alt="Picture 05" width="800"/>

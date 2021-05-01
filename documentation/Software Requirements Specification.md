@@ -84,4 +84,4 @@ Main scenario:
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="400"/>
   
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="400"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/012.JPG" alt="Picture 07" width="400"/>

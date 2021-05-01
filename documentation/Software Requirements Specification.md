@@ -82,6 +82,6 @@ Main scenario:
 * The selected rating is saved;
 * User can change the rating by clicking on the "Change" button.
 
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="600"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="400"/>
   
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="600"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="400"/>

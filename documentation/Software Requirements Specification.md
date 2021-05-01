@@ -54,3 +54,15 @@ Main scenario (when user clicks button "Watched all"):
 * On the page of the series appears the inscription "I fully watched this show!".
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/007.JPG" alt="Picture 05" width="800"/>
+  
+### 3. View of the main page
+
+If user is not logged into the application - he has access only to search and view information about the series:
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/002.JPG" alt="Picture 06" width="800"/>
+
+If user has logged into the application - on the main page he has access to 2 columns with lists of TV series: "Going to watch" and "Watched all". In each column the maximum number of records is 5. If the number of added series is more than 5, pagination buttons become available. 
+  
+User can remove the records from the "Going to watch" list (by clicking on the "cross"). For a series from the "Watched all" list, user can rate it by clicking the button "Change".
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/008.JPG" alt="Picture 07" width="800"/>

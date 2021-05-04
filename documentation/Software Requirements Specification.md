@@ -6,7 +6,7 @@ ______________
 
 ## Overall Description
 
-“MyShows App” is web-application which allows users to show information about TV series. Information is generated from base of myshows.me (API based on [JSON-RPC](https://api.myshows.me/shared/doc/)).
+“MyShows App” is web-application which allows users to show information about TV series. Information is reading from base of myshows.me (API based on [JSON-RPC](https://api.myshows.me/shared/doc/)).
   
 Users can:
 * Search and view detail information about any TV series;
@@ -29,8 +29,8 @@ Main scenario:
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/003.JPG" alt="Picture 01" width="800"/>
 
-* User chooses wanted series (all names are clickable);
-* Application displays detailed information about the series (includes the name of the series, poster, description, current status, country of production, number of seasons, rating on kinopoisk.ru and imdb.com).
+* User chooses wanted series by clicking (all names are clickable);
+* Application displays detail information about the series (included the name of the series, poster, description, current status, show period, TV channel, country of production, number of seasons, rating on kinopoisk.ru and imdb.com).
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/004.JPG" alt="Picture 02" width="800"/>
   

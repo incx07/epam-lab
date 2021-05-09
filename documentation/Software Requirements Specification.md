@@ -21,9 +21,9 @@ ______________
 
 ### 1. View of the main page
 
-At the top of the main page, a horizontal navigation bar is available to the user, which includes the following components: 
+At the top of the main page, a horizontal navigation bar is available to users, which includes the following components: 
 * the application name "MyShows App" (user can always return to the main page by clicking on it);
-* search box and the “Search” button (used to search serials);
+* the search box and the “Search” button (used to search serials);
 * the “Login / Registration” button (used to register and authorize user).
 
 If user is not logged into the application - he has access only to search and view information about the series:
@@ -32,7 +32,7 @@ If user is not logged into the application - he has access only to search and vi
 
 If user has logged into the application - on the main page he has access to 2 columns with lists of TV series: "Going to watch" and "Watched all". In each column the maximum number of records is 5. If the number of added series is more than 5, pagination buttons become available. 
   
-User can remove records from the "Going to watch" list (by clicking on the "cross" button). For a series from the "Watched all" list, user can rate it (by clicking the "Change" button).
+User can remove records from lists (by clicking on the "cross" button). For a series from the "Watched all" list, user can rate it (by clicking the "Change" button).
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/008.JPG" alt="Picture 02" width="800"/>
 
@@ -55,25 +55,25 @@ Main scenario:
 
 To register (login) in the application, user must click the “Login / Registration” button in the upper right corner of the page. 
   
-After clicking, the user sees the login page:
+After clicking, user sees the login page:
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/014.JPG" alt="Picture 05" width="800"/>
 
 If user has an account, to login he needs to enter username, password and press the "login" button. After successful authorization, user will be redirected to the main page.
   
-If the user does not remember his password, he can click on the "Forgot your password?" button, then enter the user’s registered email address and click the "Reset password" button. 
+If user does not remember his password, he can click on the "Forgot your password?" button, then enter the user’s registered email address and click the "Reset password" button. 
   
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/015.JPG" alt="Picture 06" width="800"/>
 
 After it, user will see the message: "We've emailed you instructions for setting your password. If they haven't arrived in a few minutes, check your spam folder."
  
-Allows users to reset their password by generating a one-time use link that can be used to reset the password, and sending that link to the email. If the email address provided does not exist in the system, this view won’t send an email, but the user won’t receive any error message either. This information leaking to potential attackers prevents. 
+Allows users to reset their password by generating a one-time use link that can be used to reset the password, and sending that link to the email. If the email address provided does not exist in the system, this view won’t send an email, but user won’t receive any error message either. This information leaking to potential attackers prevents. 
 
-If user is not registered in the application, he needs to click the "Registration?" button on the login page. After clicking, the user sees the register page:
+If user is not registered in the application, he needs to click the "Registration?" button on the login page. After clicking, user sees the register page:
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/016.JPG" alt="Picture 07" width="800"/>
 
-The page contains fields for entering a username, entering and confirming a password, and requirements for a username and password. To register, the user needs to click the "Register" button.
+The page contains fields for entering a username, entering and confirming a password, and requirements for a username and password. To register, user needs to click the "Register" button.
 
 If user enters an invalid name, he sees messages: "Enter a valid username. This value may contain only letters, numbers, and @ /. / + / - / _ characters" or "A user with that username already exists".
   
@@ -113,7 +113,7 @@ Main scenario:
 * In the drop-down list, user selects a rating in the range from 1 to 5 (by default the series has no rating);
 * User clicks the "Save" button;
 * The selected rating is saved;
-* User can change the rating by clicking on the "Change" button.
+* User can see and change the rating by clicking on the "Change" button.
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 11" width="400"/>
   
@@ -121,4 +121,4 @@ Main scenario:
 
 ### 7. Log out of the application
 
-To log out of the application, user must click the “Logout” button in the upper right corner of the page. 
+To log out of the application, user must click the “Logout” button in the upper right corner of the page. After logging out, user will be redirected to the main page.

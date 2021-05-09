@@ -71,11 +71,11 @@ Allows users to reset their password by generating a one-time use link that can 
 
 If user is not registered in the application, he needs to click the "Registration?" button on the login page. After clicking, the user sees the register page:
 
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/016.JPG" alt="Picture 06" width="800"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/016.JPG" alt="Picture 07" width="800"/>
 
-The page contains fields for entering a username, entering and confirming a password, and requirements for a username and password.
+The page contains fields for entering a username, entering and confirming a password, and requirements for a username and password. To register, the user needs to click the "Register" button.
 
-If user enters an invalid name, he will see the messages: "Enter a valid username. This value may contain only letters, numbers, and @ /. / + / - / _ characters" or "A user with that username already exists".
+If user enters an invalid name, he sees messages: "Enter a valid username. This value may contain only letters, numbers, and @ /. / + / - / _ characters" or "A user with that username already exists".
   
 If user enters an incorrect password (password confirmation), he may see the following messages "This password is too short. It must contain at least 8 characters.", "This password is too common.", "This password is entirely numeric.", "The two password fields didn't match." (depending on the reason).
   
@@ -83,14 +83,14 @@ If user enters an incorrect password (password confirmation), he may see the fol
 
 If user logs into the app, he can add the series to his own lists (two buttons are available: "Going to watch" and "Watched all"):
 
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/005.JPG" alt="Picture 03" width="800"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/005.JPG" alt="Picture 08" width="800"/>
   
 Main scenario (when user clicks the "Going to watch" button):
 * The series is added to the "Going to watch" list (available on the main page);
 * The "Going to watch" button becomes unavailable (disappears);
 * On the page of the series appears the inscription "I am going to watch this show!".
 
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/006.JPG" alt="Picture 04" width="800"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/006.JPG" alt="Picture 09" width="800"/>
 
 Main scenario (when user clicks the "Watched all" button):
 * The series is added to the "Watched all" list (available on the main page);
@@ -98,7 +98,7 @@ Main scenario (when user clicks the "Watched all" button):
 * Buttons "Watched all" and "Going to watch" become unavailable (disappear);
 * On the page of the series appears the inscription "I fully watched this show!".
 
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/007.JPG" alt="Picture 05" width="800"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/007.JPG" alt="Picture 10" width="800"/>
   
 ### 5. Delete records from the “Going to watch” list
 
@@ -115,6 +115,10 @@ Main scenario:
 * The selected rating is saved;
 * User can change the rating by clicking on the "Change" button.
 
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 07" width="400"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/013.JPG" alt="Picture 11" width="400"/>
   
-<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/012.JPG" alt="Picture 07" width="400"/>
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/012.JPG" alt="Picture 12" width="400"/>
+
+### 7. Log out of the application
+
+To log out of the application, user must click the “Logout” button in the upper right corner of the page. 

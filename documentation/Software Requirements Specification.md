@@ -58,6 +58,19 @@ To register (login) in the application, user must click the “Login / Registrat
 After clicking, the user sees the login page:
 
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/014.JPG" alt="Picture 05" width="800"/>
+
+If user has an account, to login he needs to enter username, password and press the "login" button. After successful authorization, user will be redirected to the main page.
+  
+If the user does not remember his password, he can click on the "Forgot your password?" button, then enter the user’s registered email address and click the "Reset password" button. 
+
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/015.JPG" alt="Picture 06" width="800"/>
+
+After it, user will see the message: "We've emailed you instructions for setting your password. If they haven't arrived in a few minutes, check your spam folder."
+ 
+Allows users to reset their password by generating a one-time use link that can be used to reset the password, and sending that link to the email. If the email address provided does not exist in the system, this view won’t send an email, but the user won’t receive any error message either. This information leaking to potential attackers prevents. 
+
+  
+
   
 ### 4. Adding TV series to own watch lists
 

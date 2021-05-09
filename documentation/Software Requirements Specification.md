@@ -62,15 +62,22 @@ After clicking, the user sees the login page:
 If user has an account, to login he needs to enter username, password and press the "login" button. After successful authorization, user will be redirected to the main page.
   
 If the user does not remember his password, he can click on the "Forgot your password?" button, then enter the user’s registered email address and click the "Reset password" button. 
-
+  
 <img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/015.JPG" alt="Picture 06" width="800"/>
 
 After it, user will see the message: "We've emailed you instructions for setting your password. If they haven't arrived in a few minutes, check your spam folder."
  
 Allows users to reset their password by generating a one-time use link that can be used to reset the password, and sending that link to the email. If the email address provided does not exist in the system, this view won’t send an email, but the user won’t receive any error message either. This information leaking to potential attackers prevents. 
 
-  
+If user is not registered in the application, he needs to click the "Registration?" button on the login page. After clicking, the user sees the register page:
 
+<img src="https://github.com/incx07/epam-lab/blob/develop/documentation/images/016.JPG" alt="Picture 06" width="800"/>
+
+The page contains fields for entering a username, entering and confirming a password, and requirements for a username and password.
+
+If user enters an invalid name, he will see the messages: "Enter a valid username. This value may contain only letters, numbers, and @ /. / + / - / _ characters" or "A user with that username already exists".
+  
+If user enters an incorrect password (password confirmation), he may see the following messages "This password is too short. It must contain at least 8 characters.", "This password is too common.", "This password is entirely numeric.", "The two password fields didn't match." (depending on the reason).
   
 ### 4. Adding TV series to own watch lists
 

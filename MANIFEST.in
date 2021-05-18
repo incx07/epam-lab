@@ -1,0 +1,4 @@
+include requirements.txt
+recursive-include documentation *
+recursive-include myshows/myshowsapp/static *
+recursive-include myshows/myshowsapp/templates *

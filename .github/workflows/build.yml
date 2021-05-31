@@ -40,4 +40,4 @@ jobs:
         pip install pylint-django
     - name: Analysing the code with pylint
       run: |
-        pylint --load-plugins pylint_django myshows/*
+        pylint --load-plugins pylint_django --django-settings-module=myshows.settings  myshows/*

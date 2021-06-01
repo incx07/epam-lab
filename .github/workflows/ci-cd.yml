@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - develop
+      - master
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     services:
       db:
         image: postgres:12.6
@@ -29,6 +30,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Cache dependency # caching dependency will make our build faster.
+      uses: actions/cache@v2 
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -38,6 +46,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pylint-django
+    - name: Run Migrations 
+      run: python myshows/manage.py migrate
+    - name: Run Test
+      run: python myshows/manage.py test    
     - name: Analysing the code with pylint
       run: |
         pylint --load-plugins pylint_django --django-settings-module=myshows.settings  myshows/*

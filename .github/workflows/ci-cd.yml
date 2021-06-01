@@ -18,10 +18,15 @@ jobs:
           POSTGRES_DB: myshows
           POSTGRES_USER: myshowsuser
           POSTGRES_PASSWORD: myshowsuser
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         # Add a health check
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     
     strategy:
       max-parallel: 4

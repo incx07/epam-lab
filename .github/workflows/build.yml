@@ -55,6 +55,7 @@ jobs:
 #        python myshows/manage.py makemigrations
 #        python myshows/manage.py migrate
     - name: Run Test
+      env:
         DB: postgres
         DB_HOST: 127.0.0.1
         DB_PORT: 5432

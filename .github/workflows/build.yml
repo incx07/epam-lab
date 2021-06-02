@@ -50,6 +50,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Migrations 
+      env:
+        DB: postgres
+        DB_HOST: 127.0.0.1
+        DB_PORT: 5432
+        DB_PASSWORD: myshowsuser
       run: | 
         python myshows/manage.py makemigrations
         python myshows/manage.py migrate

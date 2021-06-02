@@ -52,7 +52,7 @@ jobs:
     - name: Run Migrations 
       env:
         DB: postgres
-        DB_HOST: 127.0.0.1
+        DB_HOST: db
         DB_PORT: 5432
         DB_PASSWORD: myshowsuser
       run: | 

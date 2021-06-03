@@ -1,8 +1,5 @@
 ### My training project for EPAM
 
-![github.com/incx07/epam-lab/actions/workflows/build.yml](https://github.com/incx07/epam-lab/actions/workflows/build/badge.svg)
-![CI/CD](https://github.com/github/docs/actions/workflows/ci-cd.yml/badge.svg)
-
 There is my training Django-project.
 
 The project's goal is:

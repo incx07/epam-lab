@@ -11,8 +11,8 @@ jobs:
 
     runs-on: ubuntu-20.04
 
-    container:
-      image:  python:3-alpine
+#    container:
+#      image:  python:3-alpine
 
     strategy:
       max-parallel: 4
@@ -54,8 +54,8 @@ jobs:
         pip install -r requirements.txt
     - name: Run Migrations
       env:
-        DB_HOST: db
-        DB_PORT: 5432
+        POSTGRES_HOST: 127.0.0.1
+        POSTGRES_PORT: 5432
       run: | 
         python myshows/manage.py makemigrations
         python myshows/manage.py migrate

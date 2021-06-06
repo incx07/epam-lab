@@ -11,13 +11,16 @@ jobs:
 
     runs-on: ubuntu-20.04
 
+    container:
+      image:  python:3
+
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.7, 3.8, 3.9]
 
     services:
-      postgres:
+      db:
         image: postgres:12.6
         env:
           POSTGRES_DB: myshows
@@ -50,11 +53,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Migrations
-#      env:
-#        DB: postgres
-#        DB_HOST: 127.0.0.1
-#        DB_PORT: 5432
-#        DB_PASSWORD: myshowsuser
+      env:
+        DB_HOST: db
+        DB_PORT: 5432
       run: | 
         python myshows/manage.py makemigrations
         python myshows/manage.py migrate

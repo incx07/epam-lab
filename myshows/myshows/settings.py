@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'myshows',
         'USER': 'myshowsuser',
         'PASSWORD': 'myshowsuser',
-        'HOST': 'db',
+        'HOST': os.environ['POSTGRES_HOST'],
         'PORT': '5432',
     }
 }

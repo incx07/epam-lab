@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -72,6 +73,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myshows.wsgi.application'
 
 
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(var_name)
+        raise ImproperlyConfigured(error_msg)
+
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -81,7 +90,7 @@ DATABASES = {
         'NAME': 'myshows',
         'USER': 'myshowsuser',
         'PASSWORD': 'myshowsuser',
-        'HOST': os.environ['POSTGRES_HOST'],
+        'HOST': get_env_value('POSTGRES_HOST'),
         'PORT': '5432',
     }
 }

@@ -38,7 +38,7 @@ jobs:
       run: |
         pylint --load-plugins pylint_django --django-settings-module=myshows.settings  myshows/*
     - name: Run test
-        run: coverage run --source=myshows myshows/manage.py test myshowsapp
+      run: coverage run --source=myshows myshows/manage.py test myshowsapp
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:

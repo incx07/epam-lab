@@ -1,0 +1,7 @@
+[run]
+omit =
+    myshows/manage.py
+    setup.py
+    */migrations/*
+    *wsgi.py
+    *asgi.py

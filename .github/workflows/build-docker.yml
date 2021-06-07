@@ -1,4 +1,4 @@
-name: Test
+name: Build Docker
 
 on:
   push:
@@ -13,13 +13,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-
     - name: Start containers
-      run: docker-compose up --build
-
-#    - name: Run tests
-#      run: npm run test
-
+      run: docker-compose up --detach --build
     - name: Stop containers
       if: always()
-      run: docker-compose -f "docker-compose.yml" down
+      run: docker-compose down

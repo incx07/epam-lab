@@ -53,8 +53,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Migrations
-      env:
-        DJANGO_SETTINGS_MODULE: myshows.settings_github
+#      env:
+#        DJANGO_SETTINGS_MODULE: myshows.settings_github
       run: | 
         python myshows/manage.py makemigrations --settings=myshows.settings_github
         python myshows/manage.py migrate  --settings=myshows.settings_github

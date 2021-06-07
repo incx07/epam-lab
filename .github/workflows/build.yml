@@ -54,8 +54,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Migrations
       env:
-        POSTGRES_HOST: 127.0.0.1
-        POSTGRES_PORT: 5432
+        DJANGO_SETTINGS_MODULE: myshows.settings_github
       run: | 
         python myshows/manage.py makemigrations
         python myshows/manage.py migrate

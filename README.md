@@ -1,6 +1,6 @@
 ### My training project for EPAM
 
-[![check](https://github.com/incx07/epam-lab/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/ci-cd.yml/)
+[![checks](https://github.com/incx07/epam-lab/actions/workflows/checks.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/checks.yml/) [![build](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/)
 
 There is my training Django-project.
 

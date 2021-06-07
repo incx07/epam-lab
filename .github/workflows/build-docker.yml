@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Start containers
-      run: docker-compose -f "docker-compose.yml" up -d --build
+      run: docker-compose up --build
 
 #    - name: Run tests
 #      run: npm run test

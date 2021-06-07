@@ -1,5 +1,7 @@
 ### My training project for EPAM
 
+[[!](https://github.com/incx07/epam-lab/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/ci-cd.yml/)
+
 There is my training Django-project.
 
 The project's goal is:

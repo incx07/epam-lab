@@ -3,9 +3,9 @@ name: Build
 on:
   push:
     branches:
-#       - test
-      - develop
-      - master
+       - test
+#      - develop
+#      - master
 
 jobs:
   build:

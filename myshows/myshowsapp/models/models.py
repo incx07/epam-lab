@@ -1,3 +1,5 @@
-from django.db import models
+"""
+Module for creating models.
+"""
 
-# Create your models here.
+# from django.db import models

@@ -1,0 +1,21 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=myshows
+      - POSTGRES_USER=myshowsuser
+      - POSTGRES_PASSWORD=myshowsuser
+    ports:
+      - "5432:5432"
+  web:
+    build: .
+    volumes:
+      - .:/epam-lab
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

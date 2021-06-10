@@ -1,5 +1,7 @@
 ### My training project for EPAM
 
+[![checks](https://github.com/incx07/epam-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/tests.yml/) [![build](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/) [![Coverage Status](https://coveralls.io/repos/github/incx07/epam-lab/badge.svg?branch=develop)](https://coveralls.io/github/incx07/epam-lab?branch=develop)
+
 There is my training Django-project.
 
 The project's goal is:

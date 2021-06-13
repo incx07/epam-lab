@@ -15,3 +15,6 @@ class ShowToWatch(models.Model):
     myshows_id = models.PositiveIntegerField(default=0)
     title_eng = models.CharField(max_length=100)
     year = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return str(self.title_eng)

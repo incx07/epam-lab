@@ -16,3 +16,6 @@ class ShowFullWatched(models.Model):
     title_eng = models.CharField(max_length=100)
     year = models.PositiveSmallIntegerField(default=0)
     rating = models.CharField(max_length=5, default='No')
+
+    def __str__(self):
+        return str(self.title_eng)

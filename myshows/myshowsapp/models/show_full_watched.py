@@ -4,9 +4,9 @@ from django.db import models
 from django.conf import settings
 
 
-class ShowFullWatched(models.Model):
+class FullWatchedShow(models.Model):
     """
-    Class is containing the description of fields for "Watched all" model.
+    Implementing a show model with a status  "Watched all".
 
     ...
 

@@ -4,9 +4,9 @@ from django.db import models
 from django.conf import settings
 
 
-class ShowToWatch(models.Model):
+class LaterWatchShow(models.Model):
     """
-    Class is containing the description of fields for "Going to watch" model.
+    Implementing a show model with a status "Going to watch".
 
     ...
 

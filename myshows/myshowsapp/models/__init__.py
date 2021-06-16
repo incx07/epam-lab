@@ -2,5 +2,5 @@
 Definition of the package’s namespace.
 """
 
-from .show_to_watch import LaterWatchShow
-from .show_full_watched import FullWatchedShow
+from .later_watch_show import LaterWatchShow
+from .full_watched_show import FullWatchedShow

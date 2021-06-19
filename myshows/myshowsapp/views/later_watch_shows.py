@@ -1,11 +1,13 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
 from myshowsapp.models import LaterWatchShow
-from myshowsapp.rest.serializers import LaterWatchShowSerializer
+from myshowsapp.rest.serializers import LaterWatchListSerializer, LaterWatchDetailSerializer
 
 
-class LaterWatchShowView(APIView):
-    def get(self, request):
-        later_watch_shows = LaterWatchShow.objects.all()
-        serializer = LaterWatchShowSerializer(later_watch_shows, many=True)
-        return Response({"later_watch_shows": serializer.data})
+class LaterWatchShowList(generics.ListAPIView):
+    queryset = LaterWatchShow.objects.all()
+    serializer_class = LaterWatchListSerializer
+
+
+class LaterWatchShowDetail(generics.RetrieveAPIView):
+    queryset = LaterWatchShow.objects.all()
+    serializer_class = LaterWatchDetailSerializer

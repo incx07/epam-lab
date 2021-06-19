@@ -1,7 +1,14 @@
 from rest_framework import serializers
+from myshowsapp.models import LaterWatchShow
 
 
-class LaterWatchShowSerializer(serializers.Serializer):
-    myshows_id = serializers.CharField()
-    title_eng = serializers.CharField(max_length=100)
-    year = serializers.CharField()
+class LaterWatchListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LaterWatchShow
+        fields = ['title_eng', 'year']
+
+
+class LaterWatchDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LaterWatchShow
+        fields = '__all__'

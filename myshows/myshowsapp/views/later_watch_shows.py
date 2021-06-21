@@ -8,6 +8,9 @@ class LaterWatchShowList(generics.ListAPIView):
     serializer_class = LaterWatchListSerializer
 
 
-class LaterWatchShowDetail(generics.RetrieveAPIView):
+class LaterWatchShowDetail(generics.RetrieveDestroyAPIView):
     queryset = LaterWatchShow.objects.all()
+    serializer_class = LaterWatchDetailSerializer
+
+class LaterWatchShowCreate(generics.CreateAPIView):
     serializer_class = LaterWatchDetailSerializer

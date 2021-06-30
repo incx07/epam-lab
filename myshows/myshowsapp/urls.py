@@ -1,15 +1,16 @@
 """MyShows application URL Configuration"""
 
-from django.urls import path
-from .views.later_watch_shows import LaterWatchShowList, LaterWatchShowDetail, LaterWatchShowCreate
-from .views.full_watched_show import FullWatchedShowList, FullWatchedShowDetail, FullWatchedShowCreate
+from django.conf.urls import url, include
+from rest_framework.routers import DefaultRouter
+from .views.later_watch_shows import LaterWatchShowLViewSet
+from .views.full_watched_shows import FullWatchedShowLViewSet
 
+
+router = DefaultRouter()
+router.register(r'later-watch-shows', LaterWatchShowLViewSet)
+router.register(r'full-watched-shows', FullWatchedShowLViewSet)
 
 urlpatterns = [
-    path('later-watch-shows/', LaterWatchShowList.as_view()),
-    path('later-watch-shows/<int:pk>/', LaterWatchShowDetail.as_view()),
-    path('later-watch-shows/create/', LaterWatchShowCreate.as_view()),
-    path('full-watched-shows/', FullWatchedShowList.as_view()),
-    path('full-watched-shows/<int:pk>/', FullWatchedShowDetail.as_view()),
-    path('full-watched-shows/create/', FullWatchedShowCreate.as_view()),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

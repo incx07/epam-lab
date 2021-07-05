@@ -2,13 +2,13 @@
 
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
-from .views.later_watch_shows import LaterWatchShowLViewSet
-from .views.full_watched_shows import FullWatchedShowLViewSet
+from .views.later_watch_shows import LaterWatchShowViewSet
+from .views.full_watched_shows import FullWatchedShowViewSet
 
 
 router = DefaultRouter()
-router.register(r'later-watch-shows', LaterWatchShowLViewSet)
-router.register(r'full-watched-shows', FullWatchedShowLViewSet)
+router.register(r'later-watch-shows', LaterWatchShowViewSet)
+router.register(r'full-watched-shows', FullWatchedShowViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

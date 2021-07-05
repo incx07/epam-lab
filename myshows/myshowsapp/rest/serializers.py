@@ -5,6 +5,7 @@ from myshowsapp.models import LaterWatchShow, FullWatchedShow
 
 
 class LaterWatchDetailSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for LaterWatchShow model (return detail information)"""
     user_link = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -13,6 +14,7 @@ class LaterWatchDetailSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class FullWatchedDetailSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for FullWatchedShow model (return detail information)"""
     user_link = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:

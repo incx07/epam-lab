@@ -7,8 +7,8 @@ from .views.full_watched_shows import FullWatchedShowViewSet
 
 
 router = DefaultRouter()
-router.register(r'later-watch-shows', LaterWatchShowViewSet)
-router.register(r'full-watched-shows', FullWatchedShowViewSet)
+router.register(r'later-watch-shows', LaterWatchShowViewSet, basename='later-watch-shows')
+router.register(r'full-watched-shows', FullWatchedShowViewSet, basename='full-watched-shows')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

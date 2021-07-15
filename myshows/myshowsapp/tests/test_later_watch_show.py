@@ -20,7 +20,7 @@ class LaterWatchShowTests(APITestCase):
             password = "johnpassword"
         )
         user_test_01.save()
-        jwt_url = 'http://127.0.0.1:8000/api/auth/jwt/create/'
+        jwt_url = reverse('jwt-create')
         jwt_response = self.client.post(jwt_url, {'username':'john', 'password':'johnpassword'}, format='json')
         self.access_token = jwt_response.data['access']
         self.show_test_01 = LaterWatchShow.objects.create(

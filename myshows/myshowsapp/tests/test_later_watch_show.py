@@ -121,6 +121,32 @@ class LaterWatchShowTests(APITestCase):
         self.assertEqual(LaterWatchShow.objects.count(), record_count + 1)
 
 
+    def test_update_action(self):
+        """ Test UPDATE request from an authorized user."""
+        record_count = LaterWatchShow.objects.count()
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + self.access_token)
+        url = reverse('later-watch-shows-detail', kwargs={"pk": self.show_test.id})
+        response = self.client.put(url, self.data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response['content-type'], 'application/json')
+        self.assertEqual(LaterWatchShow.objects.count(), record_count)
+        self.assertEqual(
+            json.loads(response.content.decode('utf8'))['title_eng'],
+            self.data['title_eng']
+            )
+
+
+    def test_destroy_action(self):
+        """ Test DELETE request from an authorized user."""
+        record_count = LaterWatchShow.objects.count()
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + self.access_token)
+        url = reverse('later-watch-shows-detail', kwargs={"pk": self.show_test.id})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        #self.assertEqual(response['content-type'], 'application/json')
+        self.assertEqual(LaterWatchShow.objects.count(), record_count - 1)
+
+
     def test_not_found_url(self):
         """ Test response for not founded URL."""
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + self.access_token)

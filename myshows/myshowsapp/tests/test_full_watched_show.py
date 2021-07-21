@@ -87,7 +87,7 @@ class LaterWatchShowTests(APITestCase):
 
 
     def test_create_action_with_invalid_rating(self):
-        """ Test POST request with field length more than max_length."""
+        """ Test POST request with field 'rating' has invalid choice."""
         record_count = FullWatchedShow.objects.count()
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + self.access_token)
         url = reverse('full-watched-shows-list')

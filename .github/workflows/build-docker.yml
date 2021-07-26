@@ -19,7 +19,7 @@ jobs:
     - name: Run tests
       run: | 
         docker exec epam-lab_web_1 pip install coveralls
-        docker exec epam-lab_web_1 coverage run --source=myshows manage.py test
+        docker exec epam-lab_web_1 coverage run manage.py test
     - name: Coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

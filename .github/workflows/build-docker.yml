@@ -17,7 +17,7 @@ jobs:
     - name: Start containers
       run: docker-compose up --detach --build
     - name: Open Docker container's shell
-      run: docker exec -it epam-lab_web_1 bash
+      run: docker exec epam-lab_web_1 bash
     - name: Run tests
       run: python manage.py test
     - name: Close Docker container's shell

@@ -1,6 +1,6 @@
 [run]
 omit =
-    myshows/manage.py
+    manage.py
     setup.py
     */migrations/*
     *wsgi.py

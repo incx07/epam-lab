@@ -21,9 +21,9 @@ jobs:
         docker exec epam-lab_web_1 pip install coveralls
         docker exec epam-lab_web_1 coverage run --source=myshows manage.py test
     - name: Coveralls
-      run: docker exec epam-lab_web_1 coveralls --service=github
+      uses: coverallsapp/github-action@master
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Stop containers
       if: always()
       run: docker-compose down

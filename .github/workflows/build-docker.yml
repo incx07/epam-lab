@@ -16,10 +16,12 @@ jobs:
       uses: actions/checkout@v1
     - name: Start containers
       run: docker-compose up --detach --build
-    - name: Run tests
+    - name: Install Dependencies
       run: | 
-        docker exec epam-lab_web_1 pip install coveralls
-        docker exec epam-lab_web_1 coverage run manage.py test
+        docker exec epam-lab_web_1 python -m pip install --upgrade pip
+        docker exec epam-lab_web_1 pip install coveralls    
+    - name: Run tests
+      run: docker exec epam-lab_web_1 coverage run manage.py test
     - name: Coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

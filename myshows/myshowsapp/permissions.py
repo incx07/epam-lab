@@ -1,3 +1,5 @@
+""" Permissions config for views."""
+
 from rest_framework import permissions
 
 

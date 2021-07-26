@@ -2,7 +2,7 @@
 
 import json
 from random import randint
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -22,19 +22,20 @@ class APITestsMixin():
     invalid_long_test_data = {
         "user_link": 13,
         "myshows_id": 1113,
-        "title_eng": "Long long long long long long long long long long long long long long long long long long long long title",
+        "title_eng": "Long long long long long long long long long long long \
+            long long long long long long long long long title",
         "year": 2003
     }
 
 
     def setUp(self):
         self.client = APIClient()
-        self.user_test_01 = User.objects.create_user(
+        self.user_test_01 = get_user_model().objects.create_user(
             username = "first user",
             password = "Password111"
         )
         self.user_test_01.save()
-        user_test_02 = User.objects.create_user(
+        user_test_02 = get_user_model().objects.create_user(
             username = "second user",
             password = "Password222"
         )

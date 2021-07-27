@@ -25,7 +25,7 @@ jobs:
     - name: Coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: docker exec -e COVERALLS_REPO_TOKEN="$GITHUB_TOKEN" CI_BRANCH="develop" epam-lab_web_1 coveralls --service=github
+      run: docker exec -e COVERALLS_REPO_TOKEN="$GITHUB_TOKEN" epam-lab_web_1 coveralls --service=github
     - name: Stop containers
       if: always()
       run: docker-compose down

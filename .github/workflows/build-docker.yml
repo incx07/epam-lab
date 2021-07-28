@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: Start containers
       run: docker-compose up --detach --build
     - name: Install Dependencies
@@ -23,7 +23,7 @@ jobs:
     - name: Analysing the code with pylint
       run: | 
         docker exec epam-lab_web_1 ls -a
-        docker exec epam-lab_web_1 pylint --load-plugins pylint_django --django-settings-module=myshows.myshows.settings */*
+        docker exec epam-lab_web_1 pylint --load-plugins pylint_django --django-settings-module=myshows.settings myshowsapp/*
     - name: Run tests
       run: docker exec epam-lab_web_1 coverage run manage.py test
     - name: Coveralls

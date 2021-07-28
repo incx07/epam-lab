@@ -21,7 +21,7 @@ jobs:
         docker exec epam-lab_web_1 python -m pip install --upgrade pip
         docker exec epam-lab_web_1 pip install coveralls pylint-django
     - name: Analysing the code with pylint
-      run: docker exec epam-lab_web_1 pylint */*
+      run: docker exec epam-lab_web_1 pylint myshowsapp/*
     - name: Run tests
       run: docker exec epam-lab_web_1 coverage run manage.py test
     - name: Coveralls

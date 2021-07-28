@@ -29,7 +29,7 @@ jobs:
     - name: Coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: docker exec -e COVERALLS_REPO_TOKEN="$GITHUB_TOKEN" epam-lab_web_1 coveralls
+      run: docker exec -e COVERALLS_REPO_TOKEN="4y567Mge7myUBURGjkKKgUn3TYDxcC1wc" epam-lab_web_1 coveralls
     - name: Stop containers
       if: always()
       run: docker-compose down

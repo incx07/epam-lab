@@ -3,8 +3,7 @@ name: tests
 on:
   push:
     branches:
-      - develop
-      - master
+      - test
 
 jobs:
   build:
@@ -36,4 +35,4 @@ jobs:
         pip install pylint-django
     - name: Analysing the code with pylint
       run: |
-        pylint --load-plugins pylint_django --django-settings-module=myshows.settings  myshows/*
+        pylint myshows/*

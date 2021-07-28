@@ -22,7 +22,6 @@ class FullWatchedShowTests(APITestsMixin, APITestCase):
     serializer = FullWatchedDetailSerializer
     base_url = 'full-watched-shows'
     APITestsMixin.valid_test_data["rating"] = 4
-    APITestsMixin.invalid_long_test_data["rating"] = 5
     invalid_rating_test_data = {
         "user_link": 13,
         "myshows_id": 1113,

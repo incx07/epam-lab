@@ -21,7 +21,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('myshowsapp.urls')),
+    path('', include('myshowsapp.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
+
+#Add Django site authentication urls (for login, logout, password management)
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]

@@ -1,0 +1,71 @@
+{% extends 'myshowsapp/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm">
+    <h5 class="text-center">Watched all:</h5>
+    {% for serial in serials_complete %}
+    <div class="shadow p-3 mb-5 bg-white rounded">
+      <div class="row">
+        <div class="col-5">
+          <a href="{% url 'detail' id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }}</a>
+        </div>
+        {% if serial_change_id == serial.myshows_id %}
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ form_rating.as_p }}
+          </div>
+
+          <div class="col">
+            <button type="submit" name="set_rating" value="{{ serial.myshows_id }}" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+        {% else %}
+        <div class="col">
+          Rating: {{ serial.rating }}
+        </div>
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" name="change_rating" value="{{ serial.myshows_id }}" class="btn btn-primary">Change</button>
+        </div>
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" name="del_complete" value="{{ serial.myshows_id }}" class="close" aria-label="Close">
+              <span class="align-text-top" aria-hidden="true"> &times; </span>
+            </button>
+          </form>
+        </div>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+      {% endfor %}
+        {% include "tracker/pagination.html" with page=serials_complete page_num='page2'%}
+  </div>
+
+  <div class="col-sm">
+    <h5 class="text-center">Going to watch:</h5>
+    {% for serial in serials_later %}
+    <div class="shadow p-3 mb-5 bg-white rounded">
+      <div class="row">
+        <div class="col">
+          <a href="{% url 'detail' id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }} </a>
+        </div>
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" name="del_later" value="{{ serial.myshows_id }}" class="close" aria-label="Close">
+              <span class="align-text-top" aria-hidden="true"> &times; </span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+      {% include "tracker/pagination.html" with page=serials_later page_num='page1'%}
+  </div>
+</div>
+{% endblock %}

@@ -21,4 +21,5 @@ urlpatterns = [
     path('<int:id>/', detail, name='detail'),
     path('accounts/register/', MyRegisterFormView.as_view(), name="register"),
     path('start/', start, name='start_page'),
+    re_path(r'^login$', pagelogin, name='login'),
 ]

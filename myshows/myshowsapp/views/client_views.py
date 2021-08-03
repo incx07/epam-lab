@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
-from ..forms import RatingForm
+from ..forms import RatingForm, Loginform
 from ..service.services import myshows_search, myshows_getbyid
+from ..service.auth import client
 
 
 def search(request):
@@ -78,3 +79,26 @@ class MyRegisterFormView(FormView):
 
 def start(request):
     return render(request, 'myshowsapp/start.html')
+
+
+def pagelogin(request):
+    form = Loginform()
+    if 'submit' in request.POST:
+        form = Loginform(request.POST)
+        if form.is_valid():
+            usernamevalue = form.cleaned_data.get("username")
+            passwordvalue = form.cleaned_data.get("password")
+            client.login(usernamevalue = usernamevalue, passwordvalue = passwordvalue)
+            if client.is_authenticated:
+                context= {
+                    'form': form,
+                    'username': client.get_username(),
+                    'is_authenticated': True
+                }
+                return render(request, 'registration/login.html', context)
+            else:
+                context= {'form': form, 'msg': client.error}
+                return render(request, 'registration/login.html', context)
+    else:
+        context= {'form': form}
+        return render(request, 'registration/login.html', context)

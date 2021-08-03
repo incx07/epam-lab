@@ -2,4 +2,4 @@
 
 python manage.py makemigrations --no-input
 python manage.py migrate --noinput 
-exec gunicorn myshows.wsgi:application -b 0.0.0.0:8000 --reload --timeout 120
+python manage.py runserver 0.0.0.0:8000

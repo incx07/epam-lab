@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -65,7 +66,7 @@ def detail(request, id):
 #        return redirect('detail', id=id)
     return render(request, 'myshowsapp/detail.html', context)
 
-
+'''
 class MyRegisterFormView(FormView):
     form_class = UserCreationForm
     success_url = "/accounts/login/"
@@ -75,30 +76,31 @@ class MyRegisterFormView(FormView):
         return super(MyRegisterFormView, self).form_valid(form)
     def form_invalid(self, form):
         return super(MyRegisterFormView, self).form_invalid(form)
-
+'''
 
 def start(request):
     return render(request, 'myshowsapp/start.html')
 
 
-def pagelogin(request):
-    form = Loginform()
-    if 'submit' in request.POST:
-        form = Loginform(request.POST)
-        if form.is_valid():
-            usernamevalue = form.cleaned_data.get("username")
-            passwordvalue = form.cleaned_data.get("password")
-            client.login(usernamevalue = usernamevalue, passwordvalue = passwordvalue)
-            if client.is_authenticated:
-                context= {
-                    'form': form,
-                    'username': client.get_username(),
-                    'is_authenticated': True
-                }
-                return render(request, 'registration/login.html', context)
-            else:
-                context= {'form': form, 'msg': client.error}
-                return render(request, 'registration/login.html', context)
+def loginpage(request):
+    form = Loginform(request.POST or None)
+    if form.is_valid():
+        usernamevalue = form.cleaned_data.get("username")
+        passwordvalue = form.cleaned_data.get("password")
+        client.login(usernamevalue = usernamevalue, passwordvalue = passwordvalue)
+        if client.is_authenticated:
+            response = HttpResponseRedirect('start/')
+            response.set_cookie('refresh_token', client.refresh_token, httponly=True)
+            return response
+        else:
+            context= {'form': form, 'msg': client.error}
+            return render(request, 'registration/login.html', context)
     else:
         context= {'form': form}
         return render(request, 'registration/login.html', context)
+
+
+def logoutpage(request):
+    response = redirect('login/')
+    response.delete_cookie('refresh_token')
+    return response

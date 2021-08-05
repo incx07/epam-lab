@@ -19,7 +19,8 @@ urlpatterns = [
 #    path('', views.index , name='index'),
     path('search/', search, name='search_list'),
     path('<int:id>/', detail, name='detail'),
-    path('accounts/register/', MyRegisterFormView.as_view(), name="register"),
+#    path('accounts/register/', MyRegisterFormView.as_view(), name="register"),
     path('start/', start, name='start_page'),
-    re_path(r'^login$', pagelogin, name='login'),
+    re_path(r'^login/', loginpage, name='login'),
+    re_path(r'^logout/', logoutpage, name='logout'),
 ]

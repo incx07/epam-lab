@@ -1,4 +1,5 @@
 import requests
+from django.http import HttpResponse
 
 
 class JWTAuth:
@@ -13,18 +14,16 @@ class JWTAuth:
 
 
     def login(self, usernamevalue, passwordvalue):
-        print(10)
         credential = {
             'username': usernamevalue,
             'password': passwordvalue
         }
-        print(11)
         response = requests.post(self.url_create, json = credential)
-        print(response)
         if response.status_code == 200:
             self.refresh_token = response.json()['refresh']
             self.access_token = response.json()['access']
             self.is_authenticated = True
+#            self.get_username()
         if response.status_code == 401:
             self.error = response.json()['detail']
 
@@ -34,8 +33,11 @@ class JWTAuth:
             'http://127.0.0.1:8000/api/auth/users/me/',
             headers={'Authorization': 'JWT ' + self.access_token}
         )
-        self.username = response.json()['username']
-        return self.username
+        if response.status_code == 200:
+            self.username = response.json()['username']
+            return self.username
+        else:
+            return None
 
 
     def verify(self):
@@ -46,15 +48,13 @@ class JWTAuth:
             return False
 
 
-    def resresh(self):
-        response = requests.post(self.url_refresh, json = {'refresh': self.refresh_token})
+    def refresh(self, refresh_token):
+        response = requests.post(self.url_refresh, json = {'refresh': refresh_token})
         if response.status_code == 200:
             self.access_token = response.json()['access']
         if response.status_code == 401:
             self.is_authenticated = False
             self.username = None
-            error = 'User is not authenticated'
-            return error
 
 
 client = JWTAuth()

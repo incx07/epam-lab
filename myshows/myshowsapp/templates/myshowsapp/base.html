@@ -20,7 +20,7 @@
     <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark">Logged in: {{ username }}</a>
     </nav>
-      <a class="btn btn-outline-primary" href="{% url 'logout' %}?next={{request.path}}">Logout</a>
+      <a class="btn btn-outline-primary" href="{% url 'logout' %}">Logout</a>
     {% else %}
       <a class="btn btn-outline-primary" href="{% url 'login' %}">Login / Registration</a>
     {% endif %}

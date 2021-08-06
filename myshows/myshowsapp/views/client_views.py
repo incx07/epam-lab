@@ -1,10 +1,8 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
 from ..forms import RatingForm, Loginform
-from ..service.services import myshows_search, myshows_getbyid
+from ..service.services import *
 from ..service.auth import client
 
 
@@ -18,11 +16,12 @@ def search(request):
     return render(request, 'myshowsapp/search.html', context)
 
 
-@login_required
 def index(request):
-    user = request.user
+    if not client.is_authenticated:
+        return redirect('start_page')
     form_rating = RatingForm()
     serial_change_id = None
+    '''
     if 'del_later' in request.POST:
         myshows_id = request.POST['del_later']
         delete_seriallater(myshows_id, user.id)
@@ -43,9 +42,12 @@ def index(request):
     serials_complete_page = pagination(
         serials=set_all_serialcomplete(user),
         page=request.GET.get('page2'))
+    '''
+    list_later_watch = list_later_watch_show()
+    list_full_watched = list_full_watched_show()
     context = {
-        'serials_later': serials_later_page,
-        'serials_complete': serials_complete_page,
+        'serials_later': list_later_watch,
+        'serials_complete': list_full_watched,
         'form_rating': form_rating,
         'serial_change_id': serial_change_id
         }
@@ -89,7 +91,7 @@ def loginpage(request):
         passwordvalue = form.cleaned_data.get("password")
         client.login(usernamevalue = usernamevalue, passwordvalue = passwordvalue)
         if client.is_authenticated:
-            response = HttpResponseRedirect('start/')
+            response = redirect('index')
             response.set_cookie('refresh_token', client.refresh_token, httponly=True)
             return response
         else:
@@ -101,6 +103,6 @@ def loginpage(request):
 
 
 def logoutpage(request):
-    response = redirect('login/')
+    response = redirect('login')
     response.delete_cookie('refresh_token')
     return response

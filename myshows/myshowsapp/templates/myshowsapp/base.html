@@ -9,7 +9,7 @@
 
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <a class="p-2 text-dark" href="">MyShows App</a>
+    <a class="p-2 text-dark" href="{% url 'index' %}">MyShows App</a>
     <div class="mx-auto">
       <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'search_list' %}">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">

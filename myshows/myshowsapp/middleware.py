@@ -11,13 +11,11 @@ class JWTCheckMiddleware:
         if not 'api' in request.path:
             if "refresh_token" in request.COOKIES:
                 refresh_token = request.COOKIES["refresh_token"]
-                print(request.path)
                 client.refresh(refresh_token)
             else:
-                print(request.path)
                 client.is_authenticated = False
-                print(client.is_authenticated)
                 client.username = None
+                client.session.headers.clear()
         response = self.get_response(request)
         # Code to be executed for each request/response after
         # the view is called.

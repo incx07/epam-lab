@@ -1,7 +1,7 @@
 import requests
-#from .models import SerialLater, SerialComplete
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist
+from .auth import client
 
 
 def myshows_search(title: str) -> dict:
@@ -92,14 +92,16 @@ def set_rating(myshows_id, user_id, rating):
     upd_serial.save()
 
 
-def set_all_seriallater(user):
-    """ Получение всех объектов из SerialLater для пользователя """
-    return user.seriallater_set.all()
+def list_later_watch_show():
+    """ Получение всех объектов из LaterWatchShow для пользователя """
+    response = client.session.get('http://127.0.0.1:8000/api/later-watch-shows/').json()
+    return response
 
 
-def set_all_serialcomplete(user):
-    """ Получение всех объектов из SerialComplete для пользователя """
-    return user.serialcomplete_set.all()
+def list_full_watched_show():
+    """ Получение всех объектов из FullWatchedShow для пользователя """
+    response = client.session.get('http://127.0.0.1:8000/api/full-watched-shows/').json()
+    return response
 
 
 def pagination(serials, page):

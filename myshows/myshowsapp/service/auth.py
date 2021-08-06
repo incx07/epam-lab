@@ -23,7 +23,6 @@ class JWTAuth:
             self.refresh_token = response.json()['refresh']
             self.access_token = response.json()['access']
             self.is_authenticated = True
-#            self.get_username()
         if response.status_code == 401:
             self.error = response.json()['detail']
 

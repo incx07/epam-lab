@@ -55,11 +55,10 @@ def index(request):
 
 
 def detail(request, id):
-    user = request.user
     response = myshows_getbyid(id)
     context = response['result']
-#    context['show_button_later'] = set_button_later(id, user.id)
-#    context['show_button_complete'] = set_button_complete(id, user.id)
+    context['show_button_later'] = set_button_later(id)
+    context['show_button_complete'] = set_button_complete(id)
 #    if 'add_later' in request.POST:
 #        create_seriallater(response, user)
 #        return redirect('detail', id=id)

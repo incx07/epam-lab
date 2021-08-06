@@ -1,6 +1,5 @@
 import requests
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.exceptions import ObjectDoesNotExist
 from .auth import client
 
 
@@ -116,25 +115,23 @@ def pagination(serials, page):
     return serials_page
 
 
-def set_button_later(myshows_id, user_id):
+def set_button_later(myshows_id):
     """ Установка флага отображения кнопки "Хочу посмотреть" """
-    try:
-        SerialLater.objects.get(
-            myshows_id__exact = myshows_id,
-            user_link_id__exact = user_id)
-        show_button_later = False
-    except ObjectDoesNotExist:
-        show_button_later = True
+    list_later_watch = list_later_watch_show()
+    for show in list_later_watch:
+        if show["myshows_id"] == myshows_id:
+            show_button_later = False
+        else:
+            show_button_later = True
     return show_button_later
 
 
-def set_button_complete(myshows_id, user_id):
+def set_button_complete(myshows_id):
     """ Установка флага отображения кнопки "Полностью посмотрел" """
-    try:
-        SerialComplete.objects.get(
-            myshows_id__exact = myshows_id,
-            user_link_id__exact = user_id)
-        show_button_complete = False
-    except ObjectDoesNotExist:
-        show_button_complete = True
+    list_full_watched = list_full_watched_show()
+    for show in list_full_watched:
+        if show["myshows_id"] == myshows_id:
+            show_button_complete = False
+        else:
+            show_button_complete = True
     return show_button_complete

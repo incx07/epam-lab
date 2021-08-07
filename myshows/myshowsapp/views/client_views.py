@@ -21,13 +21,13 @@ def index(request):
         return redirect('start_page')
     form_rating = RatingForm()
     serial_change_id = None
-    '''
     if 'del_later' in request.POST:
-        myshows_id = request.POST['del_later']
-        delete_seriallater(myshows_id, user.id)
-    if 'del_complete' in request.POST:
-        myshows_id = request.POST['del_complete']
-        delete_serialcomplete(myshows_id, user.id)
+        id = request.POST['del_later']
+        delete_show_later(id)
+    if 'del_full' in request.POST:
+        id = request.POST['del_full']
+        delete_show_full(id)
+    '''
     if 'set_rating' in request.POST:
          form_rating = RatingForm(request.POST)
          if form_rating.is_valid():

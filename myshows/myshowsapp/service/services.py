@@ -109,25 +109,20 @@ class Show():
         client.session.post('http://127.0.0.1:8000/api/full-watched-shows/', data)
         if not self.show_button_later:
             url = 'http://127.0.0.1:8000/api/later-watch-shows/'+ str(self.id)
-            print(url)
             client.session.delete(url)
 
 
 
-def delete_seriallater(myshows_id, user_id):
+def delete_show_later(id):
     """ Удаление объекта из таблицы SerialLater """
-    del_serial = SerialLater.objects.get(
-        myshows_id = myshows_id,
-        user_link_id = user_id)
-    del_serial.delete()
+    url = 'http://127.0.0.1:8000/api/later-watch-shows/'+ str(id)
+    client.session.delete(url)
 
-def delete_serialcomplete(myshows_id, user_id):
+
+def delete_show_full(id):
     """ Удаление объекта из таблицы SerialComplete """
-    del_serial = SerialComplete.objects.get(
-        myshows_id = myshows_id,
-        user_link_id = user_id)
-    del_serial.delete()
-
+    url = 'http://127.0.0.1:8000/api/full-watched-shows/'+ str(id)
+    client.session.delete(url)
 
 
 def set_rating(myshows_id, user_id, rating):
@@ -139,18 +134,6 @@ def set_rating(myshows_id, user_id, rating):
         user_link_id=user_id)
     upd_serial.rating = rating
     upd_serial.save()
-
-
-def list_later_watch_show():
-    """ Получение всех объектов из LaterWatchShow для пользователя """
-    response = client.session.get('http://127.0.0.1:8000/api/later-watch-shows/')
-    return response.json()
-
-
-def list_full_watched_show():
-    """ Получение всех объектов из FullWatchedShow для пользователя """
-    response = client.session.get('http://127.0.0.1:8000/api/full-watched-shows/')
-    return response.json()
 
 
 def pagination(serials, page):

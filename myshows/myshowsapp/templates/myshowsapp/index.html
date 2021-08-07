@@ -18,7 +18,7 @@
           </div>
 
           <div class="col">
-            <button type="submit" name="set_rating" value="{{ serial.myshows_id }}" class="btn btn-primary">Save</button>
+            <button type="submit" name="set_rating" value="{{ serial.id }}" class="btn btn-primary">Save</button>
           </div>
         </form>
         {% else %}
@@ -28,12 +28,12 @@
         <div class="col">
           <form action="" method="post">
             {% csrf_token %}
-            <button type="submit" name="change_rating" value="{{ serial.myshows_id }}" class="btn btn-primary">Change</button>
+            <button type="submit" name="change_rating" value="{{ serial.id }}" class="btn btn-primary">Change</button>
         </div>
         <div class="col">
           <form action="" method="post">
             {% csrf_token %}
-            <button type="submit" name="del_complete" value="{{ serial.myshows_id }}" class="close" aria-label="Close">
+            <button type="submit" name="del_full" value="{{ serial.id }}" class="close" aria-label="Close">
               <span class="align-text-top" aria-hidden="true"> &times; </span>
             </button>
           </form>
@@ -57,7 +57,7 @@
         <div class="col">
           <form action="" method="post">
             {% csrf_token %}
-            <button type="submit" name="del_later" value="{{ serial.myshows_id }}" class="close" aria-label="Close">
+            <button type="submit" name="del_later" value="{{ serial.id }}" class="close" aria-label="Close">
               <span class="align-text-top" aria-hidden="true"> &times; </span>
             </button>
           </form>

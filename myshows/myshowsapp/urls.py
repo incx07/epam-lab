@@ -18,7 +18,7 @@ urlpatterns = [
     re_path(r'^api/auth/', include('djoser.urls.jwt')),
     path('', index , name='index'),
     path('search/', search, name='search_list'),
-    path('<int:id>/', detail, name='detail'),
+    path('<int:myshows_id>/', detail, name='detail'),
 #    path('accounts/register/', MyRegisterFormView.as_view(), name="register"),
     path('start/', start, name='start_page'),
     path('login/', loginpage, name='login'),

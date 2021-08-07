@@ -54,17 +54,18 @@ def index(request):
     return render(request, 'myshowsapp/index.html', context)
 
 
-def detail(request, id):
-    response = myshows_getbyid(id)
+def detail(request, myshows_id):
+    show = Show(myshows_id)
+    response = show.myshows_getbyid(myshows_id)
     context = response['result']
-    context['show_button_later'] = set_button_later(id)
-    context['show_button_complete'] = set_button_complete(id)
-#    if 'add_later' in request.POST:
-#        create_seriallater(response, user)
-#        return redirect('detail', id=id)
-#    if 'add_complete' in request.POST:
-#        create_serialcomplete(response, user)
-#        return redirect('detail', id=id)
+    context['show_button_later'] = show.show_button_later
+    context['show_button_full'] = show.show_button_full
+    if 'add_later' in request.POST:
+        show.create_show_later()
+        return redirect('detail', myshows_id=myshows_id)
+    if 'add_full' in request.POST:
+        show.create_show_full()
+        return redirect('detail', myshows_id=myshows_id)
     return render(request, 'myshowsapp/detail.html', context)
 
 '''

@@ -8,7 +8,7 @@
     <div class="shadow p-3 mb-5 bg-white rounded">
       <div class="row">
         <div class="col-5">
-          <a href="{% url 'detail' id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }}</a>
+          <a href="{% url 'detail' myshows_id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }}</a>
         </div>
         {% if serial_change_id == serial.myshows_id %}
         <div class="col">
@@ -52,7 +52,7 @@
     <div class="shadow p-3 mb-5 bg-white rounded">
       <div class="row">
         <div class="col">
-          <a href="{% url 'detail' id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }} </a>
+          <a href="{% url 'detail' myshows_id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }} </a>
         </div>
         <div class="col">
           <form action="" method="post">

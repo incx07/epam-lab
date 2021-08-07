@@ -51,6 +51,7 @@ class JWTAuth:
         if response.status_code == 200:
             self.access_token = response.json()['access']
             self.session.headers.update({'Authorization': 'JWT ' + self.access_token})
+            self.is_authenticated = True
         if response.status_code == 401:
             self.is_authenticated = False
             self.username = None

@@ -1,5 +1,7 @@
 {% extends 'myshowsapp/base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 <div class="row">
   <div class="col-sm">
@@ -10,11 +12,11 @@
         <div class="col-5">
           <a href="{% url 'detail' myshows_id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }}</a>
         </div>
-        {% if serial_change_id == serial.myshows_id %}
+        {% if serial_change_id == serial.id %}
         <div class="col">
           <form action="" method="post">
             {% csrf_token %}
-            {{ form_rating.as_p }}
+            {{ form_rating|crispy }}
           </div>
 
           <div class="col">

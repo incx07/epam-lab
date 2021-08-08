@@ -27,15 +27,15 @@ def index(request):
     if 'del_full' in request.POST:
         id = request.POST['del_full']
         delete_show_full(id)
-    '''
     if 'set_rating' in request.POST:
          form_rating = RatingForm(request.POST)
          if form_rating.is_valid():
-             myshows_id = request.POST['set_rating']
-             rating = request.POST['rating']
-             set_rating(myshows_id, user.id, rating)
+             id = request.POST['set_rating']
+             rating = form_rating.cleaned_data.get('rating')
+             set_rating(id, rating)
     if 'change_rating' in request.POST:
         serial_change_id = int(request.POST['change_rating'])
+    '''
     serials_later_page = pagination(
         serials=set_all_seriallater(user),
         page=request.GET.get('page1'))
@@ -84,12 +84,12 @@ def start(request):
     return render(request, 'myshowsapp/start.html')
 
 
-def loginpage(request):
+def login(request):
     form = Loginform(request.POST or None)
     if form.is_valid():
-        usernamevalue = form.cleaned_data.get("username")
-        passwordvalue = form.cleaned_data.get("password")
-        client.login(usernamevalue = usernamevalue, passwordvalue = passwordvalue)
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        client.login(username, password)
         if client.is_authenticated:
             response = redirect('index')
             response.set_cookie('refresh_token', client.refresh_token, httponly=True)
@@ -102,7 +102,28 @@ def loginpage(request):
         return render(request, 'registration/login.html', context)
 
 
-def logoutpage(request):
+def logout(request):
     response = redirect('login')
     response.delete_cookie('refresh_token')
     return response
+
+
+def register(request):
+    form = Loginform(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        re_password = form.cleaned_data.get('re_password')
+        client.register(username, password, re_password)
+
+        
+        if client.is_authenticated:
+            response = redirect('index')
+            response.set_cookie('refresh_token', client.refresh_token, httponly=True)
+            return response
+        else:
+            context= {'form': form, 'msg': client.error}
+            return render(request, 'registration/login.html', context)
+    else:
+        context= {'form': form}
+        return render(request, 'registration/login.html', context)

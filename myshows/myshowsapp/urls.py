@@ -19,8 +19,8 @@ urlpatterns = [
     path('', index , name='index'),
     path('search/', search, name='search_list'),
     path('<int:myshows_id>/', detail, name='detail'),
-#    path('accounts/register/', MyRegisterFormView.as_view(), name="register"),
+    path('register/', register, name="register"),
     path('start/', start, name='start_page'),
-    path('login/', loginpage, name='login'),
-    path('logout/', logoutpage, name='logout'),
+    path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
 ]

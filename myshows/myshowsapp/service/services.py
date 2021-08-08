@@ -25,13 +25,15 @@ def myshows_search(title: str) -> dict:
 def list_later_watch_show():
     """ Получение всех объектов из LaterWatchShow для пользователя """
     response = client.session.get('http://127.0.0.1:8000/api/later-watch-shows/')
-    return response.json()
+    shows = sorted(response.json(), key=lambda show: show['title_eng'])
+    return shows
 
 
 def list_full_watched_show():
     """ Получение всех объектов из FullWatchedShow для пользователя """
     response = client.session.get('http://127.0.0.1:8000/api/full-watched-shows/')
-    return response.json()
+    shows = sorted(response.json(), key=lambda show: show['title_eng'])
+    return shows
 
 
 class Show():
@@ -62,7 +64,7 @@ class Show():
                 "id": 1
             }
         rpc['params']['showId'] = myshows_id
-        response = requests.post('https://api.myshows.me/v2/rpc/', json = rpc).json()
+        response = requests.post('https://api.myshows.me/v2/rpc/', json=rpc).json()
         self.title_eng = response['result']['titleOriginal']
         self.year = response['result']['year']
         return response
@@ -125,15 +127,13 @@ def delete_show_full(id):
     client.session.delete(url)
 
 
-def set_rating(myshows_id, user_id, rating):
+def set_rating(id, rating):
     """ Установка пользовательского рейтинга для сериала в таблице
         SerialComplete
     """
-    upd_serial = SerialComplete.objects.get(
-        myshows_id=myshows_id,
-        user_link_id=user_id)
-    upd_serial.rating = rating
-    upd_serial.save()
+    url = 'http://127.0.0.1:8000/api/full-watched-shows/'+ str(id) + '/'
+    rating = {"rating": rating} 
+    client.session.patch(url, rating)
 
 
 def pagination(serials, page):

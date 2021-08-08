@@ -1,16 +1,22 @@
 {% extends 'myshowsapp/base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
-<h1>Login Page </h1>
+<div class="col-md-4 offset-md-4">
+    <h5>Login:</h5>
 
-<form action="" method="POST">
-{% csrf_token %}
-{% if msg %}
-{{ msg }}
-{% endif %}
-{{ form.as_p }}
-<input type="submit" name="submit" value="Login"/>
-</form>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% if msg %}
+        <div class="alert alert-warning" role="alert">
+            {{ msg }}
+        </div>
+        {% endif %}
+        {{ form|crispy }}
+        <input type="submit" name="submit" value="Login"/>
+    </form>
+</div>
 
 {% endblock %}

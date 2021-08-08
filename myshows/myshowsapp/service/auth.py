@@ -13,10 +13,10 @@ class JWTAuth:
     error = None
 
 
-    def login(self, usernamevalue, passwordvalue):
+    def login(self, username, password):
         credential = {
-            'username': usernamevalue,
-            'password': passwordvalue
+            'username': username,
+            'password': password
         }
         response = requests.post(self.url_create, json = credential)
         if response.status_code == 200:
@@ -25,6 +25,22 @@ class JWTAuth:
             self.is_authenticated = True
         if response.status_code == 401:
             self.error = response.json()['detail']
+
+
+    def register(self, username, password, re_password):
+        credential = {
+            'username': username,
+            'password': password,
+            're_password': re_password
+        }
+        response = requests.post('http://127.0.0.1:8000/api/auth/users/', json = credential)
+        return response
+        if response.status_code == 200:
+            self.is_registered = True
+            return response.json()['username']
+
+        if response.status_code == 400:
+            return response.json().values()
 
 
     def get_username(self):

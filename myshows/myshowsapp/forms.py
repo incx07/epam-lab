@@ -1,28 +1,24 @@
-from django.forms import ModelForm, Select, Form, CharField, PasswordInput
-from .models.full_watched_show import FullWatchedShow
+from django.forms import Form, CharField, PasswordInput, ChoiceField
 
 
-RATING_CHOICES = [
-    ('1', '1'),
-    ('2', '2'),
-    ('3', '3'),
-    ('4', '4'),
-    ('5', '5')
-]
-
-
-class RatingForm(ModelForm):
-    class Meta:
-        model = FullWatchedShow
-        fields = ['rating']
-        widgets = {
-            'rating': Select(
-                choices=RATING_CHOICES,
-                attrs={'class':'custom-select custom-select-sm'}
-            )    
-        }
+class RatingForm(Form):
+    rating = ChoiceField(
+        choices= [
+            ('1', '1'),
+            ('2', '2'),
+            ('3', '3'),
+            ('4', '4'),
+            ('5', '5')
+        ]
+    )
 
 
 class Loginform(Form):
-    username = CharField(max_length= 25, label="Enter username")
-    password = CharField(max_length= 30, label='Password', widget=PasswordInput)
+    username = CharField(max_length=150, label='Username: ')
+    password = CharField(max_length=30, label='Password: ', widget=PasswordInput)
+
+
+class Registerform(Form):
+    username = CharField(max_length=150, label='Username: ')
+    password = CharField(max_length=30, label='Password: ', widget=PasswordInput)
+    re_password = CharField(max_length=30, label='Password: ', widget=PasswordInput)

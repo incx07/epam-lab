@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'djoser',
+    'crispy_forms',
     'myshowsapp',
 ]
 
@@ -109,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -149,6 +149,10 @@ REST_FRAMEWORK = {
     ),
 }
 
+DJOSER = {
+    'USER_CREATE_PASSWORD_RETYPE': True,
+}
+
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
 }
@@ -183,3 +187,5 @@ LOGGING = {
         }
     }
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

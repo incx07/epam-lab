@@ -5,14 +5,22 @@
 {% block content %}
 
 <div class="col-md-4 offset-md-4">
-    <h5>Login:</h5>
+    <h5>Registration:</h5>
 
     <form action="" method="POST">
         {% csrf_token %}
-        {% if msg %}
-        <div class="alert alert-warning" role="alert">
-            {{ msg }}
+        {% if usernamevalue %}
+        <div class="alert alert-success" role="alert">
+            User {{ usernamevalue }} is registered. 
+            <a href="{% url 'login' %}">Click here to login</a>
         </div>
+        {% endif %}
+        {% if errors %}
+        {% for error in errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
         {% endif %}
         {{ form|crispy }}
         <input type="submit" name="submit" value="Register"/>

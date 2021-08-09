@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
-from ..forms import RatingForm, Loginform
+from ..forms import RatingForm, Loginform, Registerform
 from ..service.services import *
-from ..service.auth import client
+from ..service.auth import client, Registration
 
 
 def search(request):
@@ -35,19 +35,15 @@ def index(request):
              set_rating(id, rating)
     if 'change_rating' in request.POST:
         serial_change_id = int(request.POST['change_rating'])
-    '''
-    serials_later_page = pagination(
-        serials=set_all_seriallater(user),
+    list_later_watch_page = pagination(
+        serials=list_later_watch_show(),
         page=request.GET.get('page1'))
-    serials_complete_page = pagination(
-        serials=set_all_serialcomplete(user),
-        page=request.GET.get('page2'))
-    '''
-    list_later_watch = list_later_watch_show()
-    list_full_watched = list_full_watched_show()
+    list_full_watched_page = pagination(
+        serials=list_full_watched_show(),
+        page=request.GET.get('page2'))    
     context = {
-        'serials_later': list_later_watch,
-        'serials_complete': list_full_watched,
+        'serials_later': list_later_watch_page,
+        'serials_complete': list_full_watched_page,
         'form_rating': form_rating,
         'serial_change_id': serial_change_id
         }
@@ -109,21 +105,20 @@ def logout(request):
 
 
 def register(request):
-    form = Loginform(request.POST or None)
+    registration = Registration()
+    form = Registerform(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get('username')
+        email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
         re_password = form.cleaned_data.get('re_password')
-        client.register(username, password, re_password)
-
-        
-        if client.is_authenticated:
-            response = redirect('index')
-            response.set_cookie('refresh_token', client.refresh_token, httponly=True)
-            return response
+        registration.register(username, email, password, re_password) 
+        if registration.is_registered:
+            context= {'form': form, 'usernamevalue': registration.username}
+            return render(request, 'registration/register.html', context)
         else:
-            context= {'form': form, 'msg': client.error}
-            return render(request, 'registration/login.html', context)
+            context= {'form': form, 'errors': registration.errors}
+            return render(request, 'registration/register.html', context)
     else:
         context= {'form': form}
-        return render(request, 'registration/login.html', context)
+        return render(request, 'registration/register.html', context)

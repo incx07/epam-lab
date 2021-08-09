@@ -27,22 +27,6 @@ class JWTAuth:
             self.error = response.json()['detail']
 
 
-    def register(self, username, password, re_password):
-        credential = {
-            'username': username,
-            'password': password,
-            're_password': re_password
-        }
-        response = requests.post('http://127.0.0.1:8000/api/auth/users/', json = credential)
-        return response
-        if response.status_code == 200:
-            self.is_registered = True
-            return response.json()['username']
-
-        if response.status_code == 400:
-            return response.json().values()
-
-
     def get_username(self):
         if self.access_token:
             self.session.headers.update({'Authorization': 'JWT ' + self.access_token})
@@ -75,3 +59,24 @@ class JWTAuth:
 
 
 client = JWTAuth()
+
+
+class Registration():
+    username = None
+    is_registered = False
+    errors = None
+
+    def register(self, username, email, password, re_password):
+        credential = {
+            'username': username,
+            'email': email,
+            'password': password,
+            're_password': re_password
+        }
+        response = requests.post('http://127.0.0.1:8000/api/auth/users/', json = credential)
+        if response.status_code == 201:
+            self.is_registered = True
+            self.username = response.json()['username']
+        if response.status_code == 400:
+            for key in response.json():
+                self.errors = response.json()[key]

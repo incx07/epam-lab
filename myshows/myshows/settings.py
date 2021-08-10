@@ -32,7 +32,6 @@ ALLOWED_HOSTS = [ '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,6 +41,7 @@ INSTALLED_APPS = [
     'djoser',
     'crispy_forms',
     'myshowsapp',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
@@ -130,17 +130,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# Redirect to URL before login
-LOGIN_URL='/start'
-
-# Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -151,6 +146,7 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_URL':'password-reset/confirm/{uid}/{token}',
 }
 
 SIMPLE_JWT = {

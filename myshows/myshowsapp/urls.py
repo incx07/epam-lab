@@ -19,8 +19,12 @@ urlpatterns = [
     path('', index , name='index'),
     path('search/', search, name='search_list'),
     path('<int:myshows_id>/', detail, name='detail'),
-    path('register/', register, name="register"),
     path('start/', start, name='start_page'),
     path('login/', login, name='login'),
     path('logout/', logout, name='logout'),
+    path('register/', register, name='register'),
+    path('password-reset/', password_reset, name='password_reset'),
+    path('password-reset/done/', password_reset_done, name='password_reset_done'),
+    re_path(r'^password-reset/confirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$', password_reset_confirm, name='password_reset_confirm'),
+    path('password-reset/complete/', password_reset_complete, name='password_reset_complete'),
 ]

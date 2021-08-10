@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
-from ..forms import RatingForm, Loginform, Registerform
+from ..forms import *
 from ..service.services import *
-from ..service.auth import client, Registration
+from ..service.auth import client, Registration, password_reset_by_email, password_reset_confirmation
 
 
 def search(request):
@@ -81,7 +81,7 @@ def start(request):
 
 
 def login(request):
-    form = Loginform(request.POST or None)
+    form = LoginForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
@@ -106,7 +106,7 @@ def logout(request):
 
 def register(request):
     registration = Registration()
-    form = Registerform(request.POST or None)
+    form = RegisterForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
@@ -122,3 +122,38 @@ def register(request):
     else:
         context= {'form': form}
         return render(request, 'registration/register.html', context)
+
+
+def password_reset(request):
+    form = PasswordResetForm(request.POST or None)
+    if form.is_valid():
+        email = form.cleaned_data.get('email')
+        password_reset_by_email(email)
+        return redirect('password_reset_done')
+    else:
+        context= {'form': form}
+        return render(request, 'registration/password_reset.html', context)
+
+
+def password_reset_done(request):
+    return render(request, 'registration/password_reset_done.html')
+
+
+def password_reset_confirm(request, uidb64, token):
+    form = PasswordResetConfirmForm(request.POST or None)
+    if form.is_valid():
+        password = form.cleaned_data.get('password')
+        re_password = form.cleaned_data.get('re_password')
+        res = password_reset_confirmation(uidb64, token, password, re_password)
+        if res:
+            context= {'form': form, 'errors': res}
+            return render(request, 'registration/password_reset_confirm.html', context)  
+        else:
+            return redirect('password_reset_complete')
+    else:
+        context= {'form': form}
+        return render(request, 'registration/password_reset_confirm.html', context)    
+
+
+def password_reset_complete(request):
+    return render(request, 'registration/password_reset_complete.html')

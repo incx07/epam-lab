@@ -80,3 +80,24 @@ class Registration():
         if response.status_code == 400:
             for key in response.json():
                 self.errors = response.json()[key]
+
+
+def password_reset_by_email(email):
+    requests.post('http://127.0.0.1:8000/api/auth/users/reset_password/', json = {'email': email})
+
+
+def password_reset_confirmation(uidb64, token, password, re_password):
+    credential = {
+        'uid': uidb64,
+        'token': token,
+        'new_password': password,
+        're_new_password': re_password
+    }
+    response = requests.post('http://127.0.0.1:8000/api/auth//users/reset_password_confirm/', json = credential)
+    if response.status_code == 204:
+        return False
+    if response.status_code == 400:
+        for key in response.json():
+            errors = response.json()[key]
+            return errors
+

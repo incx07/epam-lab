@@ -64,17 +64,6 @@ def detail(request, myshows_id):
         return redirect('detail', myshows_id=myshows_id)
     return render(request, 'myshowsapp/detail.html', context)
 
-'''
-class MyRegisterFormView(FormView):
-    form_class = UserCreationForm
-    success_url = "/accounts/login/"
-    template_name = "registration/register.html"
-    def form_valid(self, form):
-        form.save()
-        return super(MyRegisterFormView, self).form_valid(form)
-    def form_invalid(self, form):
-        return super(MyRegisterFormView, self).form_invalid(form)
-'''
 
 def start(request):
     return render(request, 'myshowsapp/start.html')
@@ -147,12 +136,12 @@ def password_reset_confirm(request, uidb64, token):
         res = password_reset_confirmation(uidb64, token, password, re_password)
         if res:
             context= {'form': form, 'errors': res}
-            return render(request, 'registration/password_reset_confirm.html', context)  
+            return render(request, 'registration/password_reset_confirm.html', context)
         else:
             return redirect('password_reset_complete')
     else:
         context= {'form': form}
-        return render(request, 'registration/password_reset_confirm.html', context)    
+        return render(request, 'registration/password_reset_confirm.html', context)
 
 
 def password_reset_complete(request):

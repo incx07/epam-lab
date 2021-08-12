@@ -1,9 +1,13 @@
 import requests
 
 
+MYSHOWS_API_URL = 'https://api.myshows.me/v2/rpc/'
+
+
 def myshows_search(title):
-    """Поиск сериалов по названию на ресурсе MyShows с использованием API
-    на базе JSON-RPC 2.0
+    """
+    Searching for a TV shows by title on the MyShows resource using the API
+    based on JSON-RPC 2.0
     """
     rpc = {
             'jsonrpc': '2.0',
@@ -14,13 +18,14 @@ def myshows_search(title):
             'id': 1
           }
     rpc['params']['query'] = title
-    response = requests.post('https://api.myshows.me/v2/rpc/', json = rpc).json()
+    response = requests.post(MYSHOWS_API_URL, json = rpc).json()
     return response
 
 
 def myshows_getbyid(myshows_id):
-    """Получение информации о сериале по его id на ресурсе MyShows
-    с использованием API на базе JSON-RPC 2.0
+    """
+    Getting detail information about a TV show by id on the MyShows resource
+    using API based on JSON-RPC 2.0
     """
     rpc = {
             "jsonrpc": "2.0",
@@ -32,5 +37,5 @@ def myshows_getbyid(myshows_id):
             "id": 1
         }
     rpc['params']['showId'] = myshows_id
-    response = requests.post('https://api.myshows.me/v2/rpc/', json=rpc).json()
+    response = requests.post(MYSHOWS_API_URL, json=rpc).json()
     return response

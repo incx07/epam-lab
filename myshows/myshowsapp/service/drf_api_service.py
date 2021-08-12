@@ -3,16 +3,19 @@ from .auth_api_service import client
 from .myshows_api_service import myshows_getbyid
 
 
+DRF_API_URL = 'http://127.0.0.1:8000/api/'
+
+
 def list_later_watch_show():
-    """ Получение всех объектов из LaterWatchShow для пользователя """
-    response = client.session.get('http://127.0.0.1:8000/api/later-watch-shows/')
+    """ Getting all objects from LaterWatchShow model using REST API"""
+    response = client.session.get(f'{DRF_API_URL}later-watch-shows/')
     shows = sorted(response.json(), key=lambda show: show['title_eng'])
     return shows
 
 
 def list_full_watched_show():
-    """ Получение всех объектов из FullWatchedShow для пользователя """
-    response = client.session.get('http://127.0.0.1:8000/api/full-watched-shows/')
+    """ Getting all objects from FullWatchedShow model using REST API"""
+    response = client.session.get(f'{DRF_API_URL}full-watched-shows/')
     shows = sorted(response.json(), key=lambda show: show['title_eng'])
     return shows
 
@@ -64,7 +67,7 @@ class Show():
             "title_eng": self.title_eng,
             "year": self.year
         }
-        client.session.post('http://127.0.0.1:8000/api/later-watch-shows/', data)
+        client.session.post(f'{DRF_API_URL}later-watch-shows/', data)
 
 
     def create_show_full(self):
@@ -76,32 +79,27 @@ class Show():
             "title_eng": self.title_eng,
             "year": self.year
         }
-        client.session.post('http://127.0.0.1:8000/api/full-watched-shows/', data)
+        client.session.post(f'{DRF_API_URL}full-watched-shows/', data)
         if not self.show_button_later:
-            url = 'http://127.0.0.1:8000/api/later-watch-shows/'+ str(self.id)
-            client.session.delete(url)
-
+            client.session.delete(f'{DRF_API_URL}later-watch-shows/{self.id}')
 
 
 def delete_show_later(id):
     """ Удаление объекта из таблицы SerialLater """
-    url = 'http://127.0.0.1:8000/api/later-watch-shows/'+ str(id)
-    client.session.delete(url)
+    client.session.delete(f'{DRF_API_URL}later-watch-shows/{id}')
 
 
 def delete_show_full(id):
     """ Удаление объекта из таблицы SerialComplete """
-    url = 'http://127.0.0.1:8000/api/full-watched-shows/'+ str(id)
-    client.session.delete(url)
+    client.session.delete(f'{DRF_API_URL}full-watched-shows/{id}')
 
 
 def set_rating(id, rating):
     """ Установка пользовательского рейтинга для сериала в таблице
         SerialComplete
     """
-    url = 'http://127.0.0.1:8000/api/full-watched-shows/'+ str(id) + '/'
     rating = {"rating": rating} 
-    client.session.patch(url, rating)
+    client.session.patch(f'{DRF_API_URL}full-watched-shows/{id}/', rating)
 
 
 def pagination(serials, page):

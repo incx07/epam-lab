@@ -1,10 +1,13 @@
 import requests
 
 
+AUTH_API_URL = 'http://127.0.0.1:8000/api/auth/'
+
+
 class JWTAuth:
-    url_create = 'http://127.0.0.1:8000/api/auth/jwt/create/'
-    url_refresh = 'http://127.0.0.1:8000/api/auth/jwt/refresh/'
-    url_verify = 'http://127.0.0.1:8000/api/auth/jwt/verify/'
+    url_create = f'{AUTH_API_URL}jwt/create/'
+    url_refresh = f'{AUTH_API_URL}jwt/refresh/'
+    url_verify = f'{AUTH_API_URL}jwt/verify/'
     session = requests.Session()
     username = None
     access_token = None
@@ -30,7 +33,7 @@ class JWTAuth:
     def get_username(self):
         if self.access_token:
             self.session.headers.update({'Authorization': 'JWT ' + self.access_token})
-            response = self.session.get('http://127.0.0.1:8000/api/auth/users/me/')
+            response = self.session.get(f'{AUTH_API_URL}users/me/')
             if response.status_code == 200:
                 self.username = response.json()['username']
                 return self.username
@@ -73,7 +76,7 @@ class Registration():
             'password': password,
             're_password': re_password
         }
-        response = requests.post('http://127.0.0.1:8000/api/auth/users/', json = credential)
+        response = requests.post(f'{AUTH_API_URL}users/', json=credential)
         if response.status_code == 201:
             self.is_registered = True
             self.username = response.json()['username']
@@ -83,7 +86,7 @@ class Registration():
 
 
 def password_reset_by_email(email):
-    requests.post('http://127.0.0.1:8000/api/auth/users/reset_password/', json = {'email': email})
+    requests.post(f'{AUTH_API_URL}users/reset_password/', json={'email': email})
 
 
 def password_reset_confirmation(uidb64, token, password, re_password):
@@ -93,7 +96,7 @@ def password_reset_confirmation(uidb64, token, password, re_password):
         'new_password': password,
         're_new_password': re_password
     }
-    response = requests.post('http://127.0.0.1:8000/api/auth/users/reset_password_confirm/', json = credential)
+    response = requests.post(f'{AUTH_API_URL}users/reset_password_confirm/', json=credential)
     if response.status_code == 204:
         return False
     if response.status_code == 400:

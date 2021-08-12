@@ -1,4 +1,4 @@
-from .service.auth import client
+from .service.auth_api_service import client
 
 
 def client_auth(request):

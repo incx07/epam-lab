@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.edit import FormView
 from ..forms import *
-from ..service.services import *
-from ..service.auth import client, Registration, password_reset_by_email, password_reset_confirmation
+from ..service.drf_api_service import *
+from ..service.myshows_api_service import myshows_search
+from ..service.auth_api_service import client, Registration, password_reset_by_email, password_reset_confirmation
 
 
 def search(request):
@@ -52,7 +51,7 @@ def index(request):
 
 def detail(request, myshows_id):
     show = Show(myshows_id)
-    response = show.myshows_getbyid(myshows_id)
+    response = show.get_by_id(myshows_id)
     context = response['result']
     context['show_button_later'] = show.show_button_later
     context['show_button_full'] = show.show_button_full

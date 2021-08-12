@@ -1,25 +1,6 @@
-import json
-import requests
-from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .auth import client
-
-
-def myshows_search(title: str) -> dict:
-    """Поиск сериалов по названию на ресурсе MyShows с использованием API
-    на базе JSON-RPC 2.0
-    """
-    rpc = {
-            'jsonrpc': '2.0',
-            'method': 'shows.Search',
-            'params': {
-                'query': 'string'
-                },
-            'id': 1
-          }
-    rpc['params']['query'] = title
-    response = requests.post('https://api.myshows.me/v2/rpc/', json = rpc).json()
-    return response
+from .auth_api_service import client
+from .myshows_api_service import myshows_getbyid
 
 
 def list_later_watch_show():
@@ -50,21 +31,8 @@ class Show():
         self.set_button_full(myshows_id)
 
 
-    def myshows_getbyid(self, myshows_id) -> dict:
-        """Получение информации о сериале по его id на ресурсе MyShows
-        с использованием API на базе JSON-RPC 2.0
-        """
-        rpc = {
-                "jsonrpc": "2.0",
-                "method": "shows.GetById",
-                "params": {
-                    "showId": 0,
-                    "withEpisodes": False
-                    },
-                "id": 1
-            }
-        rpc['params']['showId'] = myshows_id
-        response = requests.post('https://api.myshows.me/v2/rpc/', json=rpc).json()
+    def get_by_id(self, myshows_id):
+        response = myshows_getbyid(myshows_id)
         self.title_eng = response['result']['titleOriginal']
         self.year = response['result']['year']
         return response

@@ -1,4 +1,4 @@
-from .service.auth import client
+from .service.auth_api_service import client
 
 class JWTCheckMiddleware:
     def __init__(self, get_response):
@@ -8,7 +8,7 @@ class JWTCheckMiddleware:
     def __call__(self, request):
     # Code to be executed for each request before
     # the view (and later middleware) are called.
-        if not 'api' in request.path:
+        if not '/api/' in request.path:
             if "refresh_token" in request.COOKIES:
                 refresh_token = request.COOKIES["refresh_token"]
                 client.refresh(refresh_token)

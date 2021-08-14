@@ -2,17 +2,17 @@
 
 {% block content %}
 
-    {% for serial in all_found %}
+{% for serial in all_found %}
 
-      <div class="list-group list-group-flush">
-        <a href="{% url 'detail' myshows_id=serial.id %}" class="list-group-item list-group-item-action">{{ serial.title_eng }}</a>
-      </div>
+<div class="list-group list-group-flush">
+  <a href="{% url 'detail' myshows_id=serial.id %}" class="list-group-item list-group-item-action">{{ serial.title_eng }}</a>
+</div>
 
-    {% empty %}
-      <div class="list-group list-group-flush">
-        <p>No results...</p>
-      </div>
+{% empty %}
+<div class="list-group list-group-flush">
+  <p>No results...</p>
+</div>
 
-    {% endfor %}
+{% endfor %}
 
 {% endblock %}

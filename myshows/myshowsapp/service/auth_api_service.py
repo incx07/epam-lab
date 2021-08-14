@@ -1,3 +1,5 @@
+"""Module for making REST API calls for user authentication."""
+
 import requests
 
 

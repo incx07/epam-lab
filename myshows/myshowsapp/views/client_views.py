@@ -1,18 +1,24 @@
 from django.shortcuts import render, redirect
+from django.views.generic.base import TemplateView
 from ..forms import *
 from ..service.drf_api_service import *
-from ..service.myshows_api_service import myshows_search
+from ..service.myshows_api_service import myshows_search, myshows_getbyid
 from ..service.auth_api_service import client, Registration, password_reset_by_email, password_reset_confirmation
 
 
-def search(request):
-    all_found = []
-    response = myshows_search(request.GET.get("search", ""))
-    for result in response["result"]:
-        found = {'id': result["id"], 'title_eng': result["titleOriginal"]}
-        all_found.append(found)
-    context = {'all_found': all_found}
-    return render(request, 'myshowsapp/search.html', context)
+class SearchView(TemplateView):
+
+    template_name = "myshowsapp/search.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_found = []
+        response = myshows_search(self.request.GET.get("search", ""))
+        for result in response["result"]:
+            found = {'id': result["id"], 'title_eng': result["titleOriginal"]}
+            all_found.append(found)
+        context['all_found'] = all_found
+        return context
 
 
 def index(request):
@@ -49,6 +55,61 @@ def index(request):
     return render(request, 'myshowsapp/index.html', context)
 
 
+class DetailView(TemplateView):
+
+    template_name = 'myshowsapp/detail.html'
+    id = None
+    myshows_id = None
+    title_eng = None
+    year = None
+    show_button_later = True
+    show_button_full = True
+
+     
+    def get_context_data(self, **kwargs):
+        self.myshows_id = kwargs['myshows_id']
+        response = myshows_getbyid(self.myshows_id)
+        self.title_eng = response['result']['titleOriginal']
+        self.year = response['result']['year']
+        context = {**super().get_context_data(**kwargs), **response['result']}
+        self.set_button_later(self.myshows_id)
+        self.set_button_full(self.myshows_id)
+        context['show_button_later'] = self.show_button_later
+        context['show_button_full'] = self.show_button_full
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        self.get_context_data(**kwargs)
+        if 'add_later' in request.POST:
+            create_show_later(self.myshows_id, self.title_eng, self.year)
+            return redirect('detail', myshows_id=self.myshows_id)
+        if 'add_full' in request.POST:
+            create_show_full(self.myshows_id, self.title_eng, self.year)
+            if not self.show_button_later:
+                delete_show_later(self.id)
+            return redirect('detail', myshows_id=self.myshows_id)
+
+
+    def set_button_later(self, myshows_id):
+        """ Установка флага отображения кнопки "Хочу посмотреть" """
+        list_later_watch = list_later_watch_show()
+        if isinstance(list_later_watch, list):
+            for show in list_later_watch:
+                if show["myshows_id"] == myshows_id:
+                    self.show_button_later = False
+                    self.id = show['id']
+
+
+    def set_button_full(self, myshows_id):
+        """ Установка флага отображения кнопки "Полностью посмотрел" """
+        list_full_watched = list_full_watched_show()
+        if isinstance(list_full_watched, list):
+            for show in list_full_watched:
+                if show["myshows_id"] == myshows_id:
+                    self.show_button_full = False
+
+'''
 def detail(request, myshows_id):
     show = Show(myshows_id)
     response = show.get_by_id(myshows_id)
@@ -62,10 +123,11 @@ def detail(request, myshows_id):
         show.create_show_full()
         return redirect('detail', myshows_id=myshows_id)
     return render(request, 'myshowsapp/detail.html', context)
+'''
 
+class StartView(TemplateView):
 
-def start(request):
-    return render(request, 'myshowsapp/start.html')
+    template_name = "myshowsapp/start.html"
 
 
 def login(request):

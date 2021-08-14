@@ -17,11 +17,11 @@
           <form action="" method="post">
             {% csrf_token %}
             {{ form_rating|crispy }}
-          </div>
+        </div>
 
-          <div class="col">
-            <button type="submit" name="set_rating" value="{{ serial.id }}" class="btn btn-primary">Save</button>
-          </div>
+        <div class="col">
+          <button type="submit" name="set_rating" value="{{ serial.id }}" class="btn btn-primary">Save</button>
+        </div>
         </form>
         {% else %}
         <div class="col">
@@ -40,12 +40,12 @@
             </button>
           </form>
         </div>
-          {% endif %}
+        {% endif %}
         </form>
       </div>
     </div>
-      {% endfor %}
-        {% include "myshowsapp/pagination.html" with page=serials_complete page_num='page2'%}
+    {% endfor %}
+    {% include "myshowsapp/pagination.html" with page=serials_complete page_num='page2'%}
   </div>
 
   <div class="col-sm">
@@ -67,7 +67,7 @@
       </div>
     </div>
     {% endfor %}
-      {% include "myshowsapp/pagination.html" with page=serials_later page_num='page1'%}
+    {% include "myshowsapp/pagination.html" with page=serials_later page_num='page1'%}
   </div>
 </div>
 {% endblock %}

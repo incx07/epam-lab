@@ -1,6 +1,7 @@
 {% load static %}
 
 <html lang="ru">
+
 <head>
   <meta charset="utf-8">
   <title>MyShows App</title>
@@ -20,14 +21,15 @@
     <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark">Logged in: {{ username }}</a>
     </nav>
-      <a class="btn btn-outline-primary" href="{% url 'logout' %}">Logout</a>
+    <a class="btn btn-outline-primary" href="{% url 'logout' %}">Logout</a>
     {% else %}
-      <a class="btn btn-outline-primary" href="{% url 'login' %}">Login / Registration</a>
+    <a class="btn btn-outline-primary" href="{% url 'login' %}">Login / Registration</a>
     {% endif %}
   </div>
   <div class="container">
-  {% block content %}
-  {% endblock %}
+    {% block content %}
+    {% endblock %}
   </div>
 </body>
+
 </html>

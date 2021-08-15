@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
+from django.views.generic import FormView, RedirectView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..forms import *
 from ..service.drf_api_service import *
 from ..service.myshows_api_service import myshows_search, myshows_getbyid
@@ -21,38 +23,71 @@ class SearchView(TemplateView):
         return context
 
 
-def index(request):
-    if not client.is_authenticated:
-        return redirect('start_page')
-    form_rating = RatingForm()
+class IndexView(TemplateView):
+
+    template_name = 'myshowsapp/index.html'
+    form_class = RatingForm
     serial_change_id = None
-    if 'del_later' in request.POST:
-        id = request.POST['del_later']
-        delete_show_later(id)
-    if 'del_full' in request.POST:
-        id = request.POST['del_full']
-        delete_show_full(id)
-    if 'set_rating' in request.POST:
-         form_rating = RatingForm(request.POST)
-         if form_rating.is_valid():
-             id = request.POST['set_rating']
-             rating = form_rating.cleaned_data.get('rating')
-             set_rating(id, rating)
-    if 'change_rating' in request.POST:
-        serial_change_id = int(request.POST['change_rating'])
-    list_later_watch_page = pagination(
-        serials=list_later_watch_show(),
-        page=request.GET.get('page1'))
-    list_full_watched_page = pagination(
-        serials=list_full_watched_show(),
-        page=request.GET.get('page2'))    
-    context = {
-        'serials_later': list_later_watch_page,
-        'serials_complete': list_full_watched_page,
-        'form_rating': form_rating,
-        'serial_change_id': serial_change_id
-        }
-    return render(request, 'myshowsapp/index.html', context)
+
+
+    def get(self, request, *args, **kwargs):
+        if not client.is_authenticated:
+            return redirect('start_page')
+        context = self.get_context_data(request, **kwargs)
+        context['form_rating'] = self.form_class
+        return self.render_to_response(context)
+    
+
+    def get_context_data(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        list_later_watch_page = self.paginate(
+            serials=list_later_watch_show(),
+            page=request.GET.get('page1')
+        )
+        list_full_watched_page = self.paginate(
+            serials=list_full_watched_show(),
+            page=request.GET.get('page2')
+        )    
+        context['serials_later'] = list_later_watch_page
+        context['serials_full'] = list_full_watched_page
+        return context
+
+
+    def paginate(self, serials, page):
+        """Django standard pagination."""
+        paginator = Paginator(serials, 5)
+        try:
+            serials_page = paginator.page(page)
+        except PageNotAnInteger:
+            serials_page = paginator.page(1)
+        except EmptyPage:
+            serials_page = paginator.page(paginator.num_pages)
+        return serials_page
+
+
+    def post(self, request, *args, **kwargs):
+        form_rating = self.form_class(request.POST)
+        in_context = {}
+        if 'del_later' in request.POST:
+            id = request.POST['del_later']
+            delete_show_later(id)
+        if 'del_full' in request.POST:
+            id = request.POST['del_full']
+            delete_show_full(id)
+        if 'change_rating' in request.POST:
+            self.serial_change_id = int(request.POST['change_rating'])
+            in_context['form_rating'] = form_rating
+            in_context['serial_change_id'] = self.serial_change_id
+        if 'set_rating' in request.POST:
+            if form_rating.is_valid():
+                id = request.POST['set_rating']
+                rating = form_rating.cleaned_data.get('rating')
+                set_rating(id, rating)
+        if 'change_rating' in request.POST:
+            self.serial_change_id = int(request.POST['change_rating'])
+            in_context['serial_change_id'] = self.serial_change_id
+        context = {**self.get_context_data(request, **kwargs), **in_context}
+        return self.render_to_response(context)
 
 
 class DetailView(TemplateView):
@@ -109,30 +144,19 @@ class DetailView(TemplateView):
                 if show["myshows_id"] == myshows_id:
                     self.show_button_full = False
 
-'''
-def detail(request, myshows_id):
-    show = Show(myshows_id)
-    response = show.get_by_id(myshows_id)
-    context = response['result']
-    context['show_button_later'] = show.show_button_later
-    context['show_button_full'] = show.show_button_full
-    if 'add_later' in request.POST:
-        show.create_show_later()
-        return redirect('detail', myshows_id=myshows_id)
-    if 'add_full' in request.POST:
-        show.create_show_full()
-        return redirect('detail', myshows_id=myshows_id)
-    return render(request, 'myshowsapp/detail.html', context)
-'''
+
 
 class StartView(TemplateView):
 
     template_name = "myshowsapp/start.html"
 
 
-def login(request):
-    form = LoginForm(request.POST or None)
-    if form.is_valid():
+class LoginView(FormView):
+
+    form_class = LoginForm
+    template_name = 'registration/login.html'
+
+    def form_valid(self, form):
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
         client.login(username, password)
@@ -142,17 +166,22 @@ def login(request):
             return response
         else:
             context= {'form': form, 'msg': client.error}
-            return render(request, 'registration/login.html', context)
-    else:
-        context= {'form': form}
-        return render(request, 'registration/login.html', context)
+            return self.render_to_response(context)
+ 
 
+class LogoutView(RedirectView):
 
+    url = 'login/'
+
+    def options(self, request, *args, **kwargs):
+        return super().options(request, *args, **kwargs)
+
+'''
 def logout(request):
     response = redirect('login')
     response.delete_cookie('refresh_token')
     return response
-
+'''
 
 def register(request):
     registration = Registration()

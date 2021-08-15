@@ -1,6 +1,5 @@
 """Module for making REST API calls to get information from the database."""
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .auth_api_service import client
 
 
@@ -48,14 +47,3 @@ def set_rating(id, rating):
     rating = {"rating": rating}
     client.session.patch(f'{DRF_API_URL}full-watched-shows/{id}/', rating)
 
-
-def pagination(serials, page):
-    """ Стандартная пагинация Django """
-    paginator = Paginator(serials, 5)
-    try:
-        serials_page = paginator.page(page)
-    except PageNotAnInteger:
-        serials_page = paginator.page(1)
-    except EmptyPage:
-        serials_page = paginator.page(paginator.num_pages)
-    return serials_page

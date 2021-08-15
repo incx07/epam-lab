@@ -9,7 +9,8 @@ class RatingForm(Form):
             ('3', '3'),
             ('4', '4'),
             ('5', '5')
-        ]
+        ], 
+        required=False
     )
 
 

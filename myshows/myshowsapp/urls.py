@@ -22,9 +22,9 @@ urlpatterns = [
     path('start/', StartView.as_view(), name='start_page'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('register/', register, name='register'),
-    path('password-reset/', password_reset, name='password_reset'),
-    path('password-reset/done/', password_reset_done, name='password_reset_done'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('password-reset/', PasswordReset.as_view(), name='password_reset'),
+    path('password-reset/done/', PasswordResetDone.as_view(), name='password_reset_done'),
     re_path(r'^password-reset/confirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$', password_reset_confirm, name='password_reset_confirm'),
     path('password-reset/complete/', password_reset_complete, name='password_reset_complete'),
 ]

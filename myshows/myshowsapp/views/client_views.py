@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
-from django.views.generic import FormView, RedirectView
+from django.views.generic import FormView, View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..forms import *
 from ..service.drf_api_service import *
@@ -169,53 +169,49 @@ class LoginView(FormView):
             return self.render_to_response(context)
  
 
-class LogoutView(RedirectView):
+class LogoutView(View):
 
-    url = 'login/'
+    def get(self, request, *args, **kwargs):
+        response = redirect('login')
+        response.delete_cookie('refresh_token')
+        return response
 
-    def options(self, request, *args, **kwargs):
-        return super().options(request, *args, **kwargs)
 
-'''
-def logout(request):
-    response = redirect('login')
-    response.delete_cookie('refresh_token')
-    return response
-'''
+class RegisterView(FormView):
 
-def register(request):
-    registration = Registration()
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+
+    def form_valid(self, form):
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
         re_password = form.cleaned_data.get('re_password')
+        registration = Registration()
         registration.register(username, email, password, re_password) 
         if registration.is_registered:
             context= {'form': form, 'usernamevalue': registration.username}
-            return render(request, 'registration/register.html', context)
+            return self.render_to_response(context)
         else:
             context= {'form': form, 'errors': registration.errors}
-            return render(request, 'registration/register.html', context)
-    else:
-        context= {'form': form}
-        return render(request, 'registration/register.html', context)
+            return self.render_to_response(context)
 
 
-def password_reset(request):
-    form = PasswordResetForm(request.POST or None)
-    if form.is_valid():
+class PasswordReset(FormView):
+    
+    form_class = PasswordResetForm
+    template_name = 'registration/password_reset.html'
+
+    def form_valid(self, form):
         email = form.cleaned_data.get('email')
         password_reset_by_email(email)
         return redirect('password_reset_done')
-    else:
-        context= {'form': form}
-        return render(request, 'registration/password_reset.html', context)
 
 
-def password_reset_done(request):
-    return render(request, 'registration/password_reset_done.html')
+class PasswordResetDone(TemplateView):
+
+    template_name = 'registration/password_reset_done.html'
+
 
 
 def password_reset_confirm(request, uidb64, token):

@@ -91,7 +91,7 @@ def password_reset_by_email(email):
     requests.post(f'{AUTH_API_URL}users/reset_password/', json={'email': email})
 
 
-def password_reset_confirmation(uidb64, token, password, re_password):
+def password_reset_confirm(uidb64, token, password, re_password):
     credential = {
         'uid': uidb64,
         'token': token,

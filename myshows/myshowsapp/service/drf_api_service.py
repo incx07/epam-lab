@@ -9,6 +9,7 @@ DRF_API_URL = 'http://127.0.0.1:8000/api/'
 def list_later_watch_show():
     """Getting all objects from LaterWatchShow model using REST API."""
     response = client.session.get(f'{DRF_API_URL}later-watch-shows/')
+    print(response.json())
     shows = sorted(response.json(), key=lambda show: show['title_eng'])
     return shows
 

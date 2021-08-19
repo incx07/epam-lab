@@ -19,11 +19,13 @@
     </form>
   </div>
 </div>
-{% if not show_button_later %}
-<div class="alert alert-info" role="alert">I am going to watch this show!</div>
-{% endif %}
-{% if not show_button_full %}
-<div class="alert alert-success" role="alert">I fully watched this show!</div>
+{% if is_authenticated %}
+  {% if not show_button_later %}
+    <div class="alert alert-info" role="alert">I am going to watch this show!</div>
+  {% endif %}
+  {% if not show_button_full %}
+    <div class="alert alert-success" role="alert">I fully watched this show!</div>
+  {% endif %}
 {% endif %}
 <p></p>
 <div class="row">

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..forms import RatingForm
@@ -36,7 +36,7 @@ class IndexView(TemplateView):
         context = self.get_context_data(request, **kwargs)
         context['form_rating'] = self.form_class
         return self.render_to_response(context)
-    
+
     def get_context_data(self, request, **kwargs):
         """Insert data into the context dict."""
         context = super().get_context_data(**kwargs)
@@ -47,7 +47,7 @@ class IndexView(TemplateView):
         list_full_watched_page = self.paginate(
             serials=list_full_watched_show(),
             page=request.GET.get('page2')
-        )    
+        )
         context['serials_later'] = list_later_watch_page
         context['serials_full'] = list_full_watched_page
         return context
@@ -126,7 +126,7 @@ class DetailView(TemplateView):
             return redirect('detail', myshows_id=self.myshows_id)
 
     def set_button_later(self, myshows_id):
-        """Setting the flag of displaying the button "Going to watch".""" 
+        """Setting the flag of displaying the button "Going to watch"."""
         list_later_watch = list_later_watch_show()
         if isinstance(list_later_watch, list):
             for show in list_later_watch:
@@ -135,7 +135,7 @@ class DetailView(TemplateView):
                     self.id = show['id']
 
     def set_button_full(self, myshows_id):
-        """Setting the flag of displaying the button "Watched all".""" 
+        """Setting the flag of displaying the button "Watched all"."""
         list_full_watched = list_full_watched_show()
         if isinstance(list_full_watched, list):
             for show in list_full_watched:

@@ -47,4 +47,3 @@ def set_rating(id, rating):
     """Setting a custom rating for a show from FullWatchedShow model using REST API."""
     rating = {"rating": rating}
     client.session.patch(f'{DRF_API_URL}full-watched-shows/{id}/', rating)
-

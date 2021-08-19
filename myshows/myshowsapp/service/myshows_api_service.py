@@ -18,7 +18,7 @@ def myshows_search(title):
             'id': 1
           }
     rpc['params']['query'] = title
-    response = requests.post(MYSHOWS_API_URL, json = rpc).json()
+    response = requests.post(MYSHOWS_API_URL, json=rpc).json()
     return response
 
 

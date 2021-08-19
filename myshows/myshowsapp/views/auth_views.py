@@ -22,13 +22,13 @@ class LoginView(FormView):
             response.set_cookie('refresh_token', client.refresh_token, httponly=True)
             return response
         else:
-            context= {'form': form, 'msg': client.error}
+            context = {'form': form, 'msg': client.error}
             return self.render_to_response(context)
- 
+
 
 class LogoutView(View):
     """Logout page rendering."""
-    
+
     def get(self, request, *args, **kwargs):
         """Handle GET requests."""
         response = redirect('login')
@@ -48,12 +48,12 @@ class RegisterView(FormView):
         password = form.cleaned_data.get('password')
         re_password = form.cleaned_data.get('re_password')
         registration = Registration()
-        registration.register(username, email, password, re_password) 
+        registration.register(username, email, password, re_password)
         if registration.is_registered:
-            context= {'form': form, 'usernamevalue': registration.username}
+            context = {'form': form, 'usernamevalue': registration.username}
             return self.render_to_response(context)
         else:
-            context= {'form': form, 'errors': registration.errors}
+            context = {'form': form, 'errors': registration.errors}
             return self.render_to_response(context)
 
 
@@ -86,7 +86,7 @@ class PasswordResetConfirmView(FormView):
         re_password = form.cleaned_data.get('re_password')
         res = password_reset_confirm(uidb64, token, password, re_password)
         if res:
-            context= {'form': form, 'errors': res}
+            context = {'form': form, 'errors': res}
             return self.render_to_response(context)
         else:
             return redirect('password_reset_complete')
@@ -95,4 +95,3 @@ class PasswordResetConfirmView(FormView):
 class PasswordResetCompleteView(TemplateView):
     """PasswordResetComplete page rendering."""
     template_name = 'registration/password_reset_complete.html'
-

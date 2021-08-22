@@ -26,4 +26,5 @@ class AuthAPIServiceTest(SimpleTestCase):
         return_data = {'detail': 'No active account found with the given credentials'}
         mock.post(auth_service.url_create, json=return_data, status_code=401)
         auth_service.login('test_user', '12345')
+        self.assertFalse(auth_service.is_authenticated)
         self.assertEqual(auth_service.error, 'No active account found with the given credentials')

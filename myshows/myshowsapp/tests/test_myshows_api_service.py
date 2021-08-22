@@ -23,18 +23,16 @@ class MyShowsAPIServiceTest(SimpleTestCase):
         response = myshows_search('Test')
         self.assertEqual(response, return_data)
 
-
     def test_myshows_getbyid_success(self, mock):
         """Test myshows_getbyid funtion with successful request."""
         return_data = {
-            "jsonrpc": "2.0",
-            "result": {"id": 123, "titleOriginal": "Test title"},
-            "id": 1
+            'jsonrpc': '2.0',
+            'result': {'id': 123, 'titleOriginal': 'Test title'},
+            'id': 1
         }
         mock.post(MYSHOWS_API_URL, json=return_data, status_code=200)
-        response = myshows_getbyid('Test')
+        response = myshows_getbyid(123)
         self.assertEqual(response, return_data)
-
 
     def test_myshows_getbyid_error(self, mock):
         """Test myshows_getbyid funtion with non-existent id."""

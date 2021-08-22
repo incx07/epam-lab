@@ -2,6 +2,14 @@
 
 {% block content %}
 
+{% if not_found %}
+
+<div class="alert alert-danger" role="alert">
+    {{ not_found }}
+</div>
+
+{% else %}
+
 <div class="row">
   <div class="col-6">
     <h2>{{ title }}</h2>
@@ -48,5 +56,7 @@
     {{ description|safe }}
   </div>
 </div>
+
+{% endif %}
 
 {% endblock %}

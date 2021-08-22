@@ -103,14 +103,18 @@ class DetailView(TemplateView):
         """Insert data into the context dict."""
         self.myshows_id = kwargs['myshows_id']
         response = myshows_getbyid(self.myshows_id)
-        self.title_eng = response['result']['titleOriginal']
-        self.year = response['result']['year']
-        context = {**super().get_context_data(**kwargs), **response['result']}
-        if client.is_authenticated:
-            self.set_button_later(self.myshows_id)
-            self.set_button_full(self.myshows_id)
-            context['show_button_later'] = self.show_button_later
-            context['show_button_full'] = self.show_button_full
+        if response == 'not found':
+            context = super().get_context_data(**kwargs)
+            context['not_found'] = 'Show was not found.'
+        else:
+            self.title_eng = response['result']['titleOriginal']
+            self.year = response['result']['year']
+            context = {**super().get_context_data(**kwargs), **response['result']}
+            if client.is_authenticated:
+                self.set_button_later(self.myshows_id)
+                self.set_button_full(self.myshows_id)
+                context['show_button_later'] = self.show_button_later
+                context['show_button_full'] = self.show_button_full
         return context
 
     def post(self, request, *args, **kwargs):

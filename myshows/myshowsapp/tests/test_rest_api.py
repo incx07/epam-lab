@@ -32,7 +32,7 @@ class FullWatchedShowTests(APITestsMixin, APITestCase):
 
 
     def test_create_action_with_invalid_rating(self):
-        """ Test POST request when field 'rating' has invalid choice."""
+        """Test POST request when field 'rating' has invalid choice."""
         objects_count = self.model.objects.count()
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + self.access_token)
         url = reverse(f'{self.base_url}-list')

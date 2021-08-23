@@ -9,7 +9,6 @@ AUTH_API_URL = 'http://127.0.0.1:8000/api/auth/'
 class JWTAuth:
     url_create = f'{AUTH_API_URL}jwt/create/'
     url_refresh = f'{AUTH_API_URL}jwt/refresh/'
-    url_verify = f'{AUTH_API_URL}jwt/verify/'
     session = requests.Session()
     username = None
     access_token = None
@@ -39,13 +38,6 @@ class JWTAuth:
                 return self.username
             else:
                 return None
-
-    def verify(self):
-        response = requests.post(self.url_verify, json={'token': self.access_token})
-        if response.status_code == 200:
-            return True
-        if response.status_code == 401:
-            return False
 
     def refresh(self, refresh_token):
         response = requests.post(self.url_refresh, json={'refresh': refresh_token})

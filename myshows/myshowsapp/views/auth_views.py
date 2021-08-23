@@ -84,8 +84,8 @@ class PasswordResetConfirmView(FormView):
         uidb64, token = self.kwargs['uidb64'], self.kwargs['token']
         password = form.cleaned_data.get('password')
         re_password = form.cleaned_data.get('re_password')
-        res = password_reset_confirm(uidb64, token, password, re_password)
-        if res:
+        errors = password_reset_confirm(uidb64, token, password, re_password)
+        if errors:
             context = {'form': form, 'errors': res}
             return self.render_to_response(context)
         else:

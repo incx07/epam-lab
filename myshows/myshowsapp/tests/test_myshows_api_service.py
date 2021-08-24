@@ -1,7 +1,7 @@
 """Creating tests for MyShows API service."""
 
-from django.test import SimpleTestCase
 import requests_mock
+from django.test import SimpleTestCase
 from ..service.myshows_api_service import myshows_search, myshows_getbyid, MYSHOWS_API_URL
 
 

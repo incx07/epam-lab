@@ -1,13 +1,13 @@
 """Creating tests for djoser REST API authentication service."""
 
-from django.test import SimpleTestCase
 import requests_mock
+from django.test import SimpleTestCase
 from ..service.auth_api_service import JWTAuth, Registration, AUTH_API_URL, password_reset_confirm
 
 
 @requests_mock.Mocker()
 class AuthAPIServiceTest(SimpleTestCase):
-    """Test cases for for REST API authentication service."""
+    """Test cases for REST API authentication service."""
 
     def setUp(self):
         self.auth_service = JWTAuth()

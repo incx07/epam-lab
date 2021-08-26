@@ -54,25 +54,18 @@ class JWTAuth:
 client = JWTAuth()
 
 
-class Registration():
-    username = None
-    is_registered = False
-    errors = None
-
-    def register(self, username, email, password, re_password):
-        credential = {
-            'username': username,
-            'email': email,
-            'password': password,
-            're_password': re_password
-        }
-        response = requests.post(f'{AUTH_API_URL}users/', json=credential)
-        if response.status_code == 201:
-            self.is_registered = True
-            self.username = response.json()['username']
-        if response.status_code == 400:
-            for key in response.json():
-                self.errors = response.json()[key]
+def register(username, email, password, re_password):
+    credential = {
+        'username': username,
+        'email': email,
+        'password': password,
+        're_password': re_password
+    }
+    response = requests.post(f'{AUTH_API_URL}users/', json=credential)
+    if response.status_code == 201:
+        return {'username': response.json()['username']}
+    if response.status_code == 400:
+        return {'errors': response.json()}
 
 
 def password_reset_by_email(email):

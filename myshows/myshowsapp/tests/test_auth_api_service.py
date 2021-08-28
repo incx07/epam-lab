@@ -2,7 +2,7 @@
 
 import requests_mock
 from django.test import SimpleTestCase
-from ..service.auth_api_service import JWTAuth, Registration, AUTH_API_URL, password_reset_confirm
+from ..service.auth_api_service import JWTAuth, register, AUTH_API_URL, pwd_reset_confirm
 
 
 @requests_mock.Mocker()
@@ -59,28 +59,27 @@ class AuthAPIServiceTest(SimpleTestCase):
         self.assertIsNone(self.auth_service.username)
 
     def test_registration_success(self, mock):
-        registration = Registration()
         return_data = {'username': 'NewUser'}
         mock.post(f'{AUTH_API_URL}users/', json=return_data, status_code=201)
-        registration.register('NewUser', 'test@test.com', 'password', 'password')
-        self.assertTrue(registration.is_registered)
-        self.assertEqual(registration.username, 'NewUser')
+        response = register('NewUser', 'test@test.com', 'password', 'password')
+        self.assertIn('username', response)
+        self.assertEqual(response['username'], 'NewUser')
 
     def test_registration_error(self, mock):
-        registration = Registration()
         return_data = {'password': 'This password is entirely numeric.'}
         mock.post(f'{AUTH_API_URL}users/', json=return_data, status_code=400)
-        registration.register('NewUser', 'test@test.com', '123', '123')
-        self.assertFalse(registration.is_registered)
-        self.assertEqual(registration.errors, 'This password is entirely numeric.')
+        response = register('NewUser', 'test@test.com', '123', '123')
+        self.assertIn('errors', response)
+        self.assertEqual(response['errors']['password'], 'This password is entirely numeric.')
 
-    def test_password_reset_confirm_success(self, mock):
+    def test_pwd_reset_confirm_success(self, mock):
         mock.post(f'{AUTH_API_URL}users/reset_password_confirm/', json=None, status_code=204)
-        response = password_reset_confirm('uid', 'token', 'password', 'password')
-        self.assertFalse(response)
+        response = pwd_reset_confirm('uid', 'token', 'password', 'password')
+        self.assertIn('success', response)
 
-    def test_password_reset_confirm_error(self, mock):
+    def test_pwd_reset_confirm_error(self, mock):
         return_data = {'new_password': 'This password is entirely numeric.'}
         mock.post(f'{AUTH_API_URL}users/reset_password_confirm/', json=return_data, status_code=400)
-        response = password_reset_confirm('uid', 'token', '123', '123')
-        self.assertEqual(response, 'This password is entirely numeric.')
+        response = pwd_reset_confirm('uid', 'token', '123', '123')
+        self.assertIn('errors', response)
+        self.assertEqual(response['errors'], 'This password is entirely numeric.')

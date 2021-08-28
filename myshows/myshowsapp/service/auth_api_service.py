@@ -68,11 +68,11 @@ def register(username, email, password, re_password):
         return {'errors': response.json()}
 
 
-def password_reset_by_email(email):
+def pwd_reset_by_email(email):
     requests.post(f'{AUTH_API_URL}users/reset_password/', json={'email': email})
 
 
-def password_reset_confirm(uidb64, token, password, re_password):
+def pwd_reset_confirm(uidb64, token, password, re_password):
     credential = {
         'uid': uidb64,
         'token': token,
@@ -81,8 +81,8 @@ def password_reset_confirm(uidb64, token, password, re_password):
     }
     response = requests.post(f'{AUTH_API_URL}users/reset_password_confirm/', json=credential)
     if response.status_code == 204:
-        return False
+        return {'success': 'The password has been changed!'}
     if response.status_code == 400:
         for key in response.json():
             errors = response.json()[key]
-        return errors
+        return {'errors': errors}

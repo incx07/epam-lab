@@ -50,6 +50,7 @@ class RegisterForm(Form):
                     self.add_error(error_field, error_value)
         return cleaned_data
 
+
 class PasswordResetForm(Form):
     email = EmailField(max_length=200, label='Email address: ')
 

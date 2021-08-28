@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.views.generic import FormView, View
 from ..forms import LoginForm, RegisterForm, PasswordResetForm, PasswordResetConfirmForm
-from ..service.auth_api_service import client, password_reset_by_email, password_reset_confirm
+from ..service.auth_api_service import client, pwd_reset_by_email, pwd_reset_confirm
 
 
 class LoginView(FormView):
@@ -39,7 +39,6 @@ class RegisterView(FormView):
         return self.render_to_response(context)
 
 
-
 class PasswordResetView(FormView):
     """PasswordReset page rendering."""
     form_class = PasswordResetForm
@@ -48,7 +47,7 @@ class PasswordResetView(FormView):
     def form_valid(self, form):
         '''Is called when valid form data has been POSTed.'''
         email = form.cleaned_data.get('email')
-        password_reset_by_email(email)
+        pwd_reset_by_email(email)
         return redirect('password_reset_done')
 
 
@@ -67,9 +66,9 @@ class PasswordResetConfirmView(FormView):
         uidb64, token = self.kwargs['uidb64'], self.kwargs['token']
         password = form.cleaned_data.get('password')
         re_password = form.cleaned_data.get('re_password')
-        errors = password_reset_confirm(uidb64, token, password, re_password)
-        if errors:
-            context = {'form': form, 'errors': errors}
+        response = pwd_reset_confirm(uidb64, token, password, re_password)
+        if 'errors' in response:
+            context = {'form': form, 'errors': response['errors']}
             return self.render_to_response(context)
         else:
             return redirect('password_reset_complete')

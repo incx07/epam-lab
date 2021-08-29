@@ -6,7 +6,7 @@ from .views.later_watch_shows import LaterWatchShowViewSet
 from .views.full_watched_shows import FullWatchedShowViewSet
 from .views.client_views import IndexView, SearchView, DetailView, StartView
 from .views.auth_views import (
-    LoginView, LogoutView, RegisterView, PasswordResetView, 
+    LoginView, LogoutView, RegisterView, PasswordResetView,
     PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 )
 

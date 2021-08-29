@@ -150,3 +150,9 @@ class DetailView(TemplateView):
 class StartView(TemplateView):
     """Start page rendering."""
     template_name = "myshowsapp/start.html"
+
+    def get(self, request, *args, **kwargs):
+        """Handle GET requests."""
+        if client.is_authenticated:
+            return redirect('index')
+        return super().get(request, *args, **kwargs)

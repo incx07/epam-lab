@@ -2,9 +2,23 @@ from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..forms import RatingForm
-from ..service.drf_api_service import *
+from ..service.drf_api_service import (
+    list_later_watch_show, list_full_watched_show, delete_show_later,
+    delete_show_full, set_rating, create_show_later, create_show_full
+)
 from ..service.myshows_api_service import myshows_search, myshows_getbyid
 from ..service.auth_api_service import client
+
+
+class StartView(TemplateView):
+    """Start page rendering."""
+    template_name = "myshowsapp/start.html"
+
+    def get(self, request, *args, **kwargs):
+        """Handle GET requests."""
+        if client.is_authenticated:
+            return redirect('index')
+        return super().get(request, *args, **kwargs)
 
 
 class SearchView(TemplateView):
@@ -14,12 +28,12 @@ class SearchView(TemplateView):
     def get_context_data(self, **kwargs):
         """Insert data into the context dict."""
         context = super().get_context_data(**kwargs)
-        all_found = []
+        searching_results = []
         response = myshows_search(self.request.GET.get("search", ""))
         for result in response["result"]:
             found = {'id': result["id"], 'title_eng': result["titleOriginal"]}
-            all_found.append(found)
-        context['all_found'] = all_found
+            searching_results.append(found)
+        context['searching_results'] = searching_results
         return context
 
 
@@ -145,14 +159,3 @@ class DetailView(TemplateView):
             for show in list_full_watched:
                 if show["myshows_id"] == myshows_id:
                     self.show_button_full = False
-
-
-class StartView(TemplateView):
-    """Start page rendering."""
-    template_name = "myshowsapp/start.html"
-
-    def get(self, request, *args, **kwargs):
-        """Handle GET requests."""
-        if client.is_authenticated:
-            return redirect('index')
-        return super().get(request, *args, **kwargs)

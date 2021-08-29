@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% for serial in all_found %}
+{% for serial in searching_results %}
 
 <div class="list-group list-group-flush">
   <a href="{% url 'detail' myshows_id=serial.id %}" class="list-group-item list-group-item-action">{{ serial.title_eng }}</a>

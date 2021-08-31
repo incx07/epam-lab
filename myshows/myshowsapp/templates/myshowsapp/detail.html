@@ -12,8 +12,8 @@
 
 <div class="row">
   <div class="col-6">
-    <h2>{{ title }}</h2>
-    <h5>{{ titleOriginal }}, {{ year }}</h5>
+    <h2>{{ result.title }}</h2>
+    <h5>{{ result.titleOriginal }}, {{ result.year }}</h5>
   </div>
   <div class="col-6">
     <form action="" method="post">
@@ -38,22 +38,22 @@
 <p></p>
 <div class="row">
   <div class="col">
-    <img src="{{ image }}" width=500>
+    <img src="{{ result.image }}" width=500>
   </div>
   <div class="col">
-    <p>Страна: {{ countryTitle }}</p>
-    <p>Телеканал: {{ network.title }}</p>
-    <p>Статус: {{ status }}</p>
-    <p>Период показа: {{ started }} - {{ ended }}</p>
-    <p>Количество сезонов: {{ totalSeasons }}</p>
-    <p>Рейтинг КиноПоиска: <a href="{{ kinopoiskUrl }}">{{ kinopoiskRating }}</a></p>
-    <p>Рейтинг IMDB: <a href="{{ imdbUrl }}">{{ imdbRating }}</a></p>
+    <p>Страна: {{ result.countryTitle }}</p>
+    <p>Телеканал: {{ result.network.title }}</p>
+    <p>Статус: {{ result.status }}</p>
+    <p>Период показа: {{ result.started }} - {{ result.ended }}</p>
+    <p>Количество сезонов: {{ result.totalSeasons }}</p>
+    <p>Рейтинг КиноПоиска: <a href="{{ result.kinopoiskUrl }}">{{ result.kinopoiskRating }}</a></p>
+    <p>Рейтинг IMDB: <a href="{{ result.imdbUrl }}">{{ result.imdbRating }}</a></p>
   </div>
 </div>
 <p></p>
 <div class="card">
   <div class="card-body">
-    {{ description|safe }}
+    {{ result.description|safe }}
   </div>
 </div>
 

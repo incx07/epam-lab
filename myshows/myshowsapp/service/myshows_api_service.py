@@ -41,5 +41,5 @@ def myshows_getbyid(myshows_id):
     rpc['params']['showId'] = myshows_id
     response = requests.post(MYSHOWS_API_URL, json=rpc).json()
     if 'error' in response:
-        return 'not found'
+        return {'error': 'Show was not found'}
     return response

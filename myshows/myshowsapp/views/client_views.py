@@ -117,13 +117,14 @@ class DetailView(TemplateView):
         """Insert data into the context dict."""
         self.myshows_id = kwargs['myshows_id']
         response = myshows_getbyid(self.myshows_id)
-        if response == 'not found':
+        if 'error' in response:
             context = super().get_context_data(**kwargs)
-            context['not_found'] = 'Show was not found.'
+            context['not_found'] = response['error']
         else:
             self.title_eng = response['result']['titleOriginal']
             self.year = response['result']['year']
-            context = {**super().get_context_data(**kwargs), **response['result']}
+            context = super().get_context_data(**kwargs)
+            context['result'] = response['result']
             if client.is_authenticated:
                 self.set_button_later(self.myshows_id)
                 self.set_button_full(self.myshows_id)
@@ -146,16 +147,14 @@ class DetailView(TemplateView):
     def set_button_later(self, myshows_id):
         """Setting the flag of displaying the button "Going to watch"."""
         list_later_watch = list_later_watch_show()
-        if isinstance(list_later_watch, list):
-            for show in list_later_watch:
-                if show["myshows_id"] == myshows_id:
-                    self.show_button_later = False
-                    self.id = show['id']
+        for show in list_later_watch:
+            if show["myshows_id"] == myshows_id:
+                self.show_button_later = False
+                self.id = show['id']
 
     def set_button_full(self, myshows_id):
         """Setting the flag of displaying the button "Watched all"."""
         list_full_watched = list_full_watched_show()
-        if isinstance(list_full_watched, list):
-            for show in list_full_watched:
-                if show["myshows_id"] == myshows_id:
-                    self.show_button_full = False
+        for show in list_full_watched:
+            if show["myshows_id"] == myshows_id:
+                self.show_button_full = False

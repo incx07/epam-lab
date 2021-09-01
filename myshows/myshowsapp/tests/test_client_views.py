@@ -4,11 +4,33 @@ from django.urls import reverse
 from ..views.client_views import SearchView, StartView, DetailView
 
 
+@patch('myshowsapp.views.client_views.client')
 class ClientViewsTest(SimpleTestCase):
 
 
+    def setUp(self):
+        self.myshows_getbyid_return_value = {
+            'jsonrpc': '2.0',
+            'result': {
+                'id': 123,
+                'title': 'Заголовок',
+                'titleOriginal': 'Title',
+                'description': '<p>Длинное описание</p>',
+                'status': 'Canceled/Ended',
+                'countryTitle': 'Япония',
+                'started': 'Apr/07/2003',
+                'ended': 'Mar/24/2012',
+                'year': 2003,
+                'kinopoiskRating': 7.892,
+                'imdbRating': 7.8,
+                'image': 'https://media.myshows.me/shows/normal/2/c5/21.jpg',
+            },
+            'id': 1
+        }        
+
+
     @patch('myshowsapp.views.client_views.myshows_search')
-    def test_render_search_page(self, mock_myshows_search):
+    def test_render_search_page(self, mock_myshows_search, mock_client):
         payload = {'search': 'Westworld'}
         mock_myshows_search.return_value = {
             'jsonrpc': '2.0',
@@ -30,7 +52,6 @@ class ClientViewsTest(SimpleTestCase):
         self.assertEqual(response.context['searching_results'], expected_data)
 
 
-    @patch('myshowsapp.views.client_views.client')
     def test_render_start_page_for_unauthorized_user(self, mock_client):
         mock_client.is_authenticated = False
         response = self.client.get(reverse('start_page'))
@@ -39,7 +60,6 @@ class ClientViewsTest(SimpleTestCase):
         self.assertTemplateUsed(response, 'myshowsapp/start.html')
 
 
-    @patch('myshowsapp.views.client_views.client')
     def test_render_start_page_for_authorized_user(self, mock_client):
         mock_client.is_authenticated = True
         response = self.client.get(reverse('start_page'))
@@ -47,27 +67,9 @@ class ClientViewsTest(SimpleTestCase):
         self.assertRedirects(response, '/', fetch_redirect_response=False)
 
 
-    @patch('myshowsapp.views.client_views.client')
     @patch('myshowsapp.views.client_views.myshows_getbyid')
     def test_render_detail_page_for_unauthorized_user(self, mock_myshows_getbyid, mock_client):
-        mock_myshows_getbyid.return_value = {
-            'jsonrpc': '2.0',
-            'result': {
-                'id': 123,
-                'title': 'Заголовок',
-                'titleOriginal': 'Title',
-                'description': '<p>Длинное описание</p>',
-                'status': 'Canceled/Ended',
-                'countryTitle': 'Япония',
-                'started': 'Apr/07/2003',
-                'ended': 'Mar/24/2012',
-                'year': 2003,
-                'kinopoiskRating': 7.892,
-                'imdbRating': 7.8,
-                'image': 'https://media.myshows.me/shows/normal/2/c5/21.jpg',
-            },
-            'id': 1
-        }
+        mock_myshows_getbyid.return_value = self.myshows_getbyid_return_value
         mock_client.is_authenticated = False
         expected_data = mock_myshows_getbyid.return_value['result']
         response = self.client.get(reverse('detail', kwargs={'myshows_id': 123}))
@@ -76,3 +78,90 @@ class ClientViewsTest(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'myshowsapp/detail.html')
         self.assertEqual(response.context['result'], expected_data)
+
+
+    @patch('myshowsapp.views.client_views.list_full_watched_show')
+    @patch('myshowsapp.views.client_views.list_later_watch_show')
+    @patch('myshowsapp.views.client_views.myshows_getbyid')
+    def test_render_detail_page_for_authorized_user_with_unwatched_show(
+                    self, mock_myshows_getbyid, mock_list_later_watch_show,
+                    mock_list_full_watched_show, mock_client):
+        mock_myshows_getbyid.return_value = self.myshows_getbyid_return_value
+        mock_client.is_authenticated = True
+        mock_list_later_watch_show.return_value = [{
+            'id': 4,
+            'myshows_id': 7718,
+            'title_eng': 'First show',
+            'year': 2010
+        }]
+        mock_list_full_watched_show.return_value = [{
+            'id': 7,
+            'myshows_id': 8,
+            'title_eng': 'Second show',
+            'year': 2019
+        }]
+        expected_data = mock_myshows_getbyid.return_value['result']
+        response = self.client.get(reverse('detail', kwargs={'myshows_id': 123}))
+        self.assertTrue(mock_list_later_watch_show.called)
+        self.assertTrue(mock_list_full_watched_show.called)
+        self.assertEqual(response.context['result'], expected_data)
+        self.assertTrue(response.context['show_button_later'])
+        self.assertTrue(response.context['show_button_full'])
+
+
+    @patch('myshowsapp.views.client_views.list_full_watched_show')
+    @patch('myshowsapp.views.client_views.list_later_watch_show')
+    @patch('myshowsapp.views.client_views.myshows_getbyid')
+    def test_render_detail_page_for_authorized_user_with_show_going_to_watch(
+                    self, mock_myshows_getbyid, mock_list_later_watch_show,
+                    mock_list_full_watched_show, mock_client):
+        mock_myshows_getbyid.return_value = self.myshows_getbyid_return_value
+        mock_client.is_authenticated = True
+        mock_list_later_watch_show.return_value = [{
+            'id': 4,
+            'myshows_id': 123,
+            'title_eng': 'First show',
+            'year': 2010
+        }]
+        mock_list_full_watched_show.return_value = [{
+            'id': 7,
+            'myshows_id': 124,
+            'title_eng': 'Second show',
+            'year': 2021
+        }]
+        expected_data = mock_myshows_getbyid.return_value['result']
+        response = self.client.get(reverse('detail', kwargs={'myshows_id': 123}))
+        self.assertTrue(mock_list_later_watch_show.called)
+        self.assertTrue(mock_list_full_watched_show.called)
+        self.assertEqual(response.context['result'], expected_data)
+        self.assertFalse(response.context['show_button_later'])
+        self.assertTrue(response.context['show_button_full'])
+
+
+    @patch('myshowsapp.views.client_views.list_full_watched_show')
+    @patch('myshowsapp.views.client_views.list_later_watch_show')
+    @patch('myshowsapp.views.client_views.myshows_getbyid')
+    def test_render_detail_page_for_authorized_user_with_full_watched_show(
+                    self, mock_myshows_getbyid, mock_list_later_watch_show,
+                    mock_list_full_watched_show, mock_client):
+        mock_myshows_getbyid.return_value = self.myshows_getbyid_return_value
+        mock_client.is_authenticated = True
+        mock_list_later_watch_show.return_value = [{
+            'id': 4,
+            'myshows_id': 7718,
+            'title_eng': 'First show',
+            'year': 2010
+        }]
+        mock_list_full_watched_show.return_value = [{
+            'id': 7,
+            'myshows_id': 123,
+            'title_eng': 'Second show',
+            'year': 2021
+        }]
+        expected_data = mock_myshows_getbyid.return_value['result']
+        response = self.client.get(reverse('detail', kwargs={'myshows_id': 123}))
+        self.assertTrue(mock_list_later_watch_show.called)
+        self.assertTrue(mock_list_full_watched_show.called)
+        self.assertEqual(response.context['result'], expected_data)
+        self.assertTrue(response.context['show_button_later'])
+        self.assertFalse(response.context['show_button_full'])

@@ -106,55 +106,45 @@ class IndexView(TemplateView):
 class DetailView(TemplateView):
     """Detail page rendering."""
     template_name = 'myshowsapp/detail.html'
-    id = None
-    myshows_id = None
-    title_eng = None
-    year = None
-    show_button_later = True
-    show_button_full = True
 
     def get_context_data(self, **kwargs):
         """Insert data into the context dict."""
-        self.myshows_id = kwargs['myshows_id']
-        response = myshows_getbyid(self.myshows_id)
+        myshows_id = kwargs['myshows_id']
+        response = myshows_getbyid(myshows_id)
+        context = super().get_context_data(**kwargs)
         if 'error' in response:
-            context = super().get_context_data(**kwargs)
             context['not_found'] = response['error']
         else:
-            self.title_eng = response['result']['titleOriginal']
-            self.year = response['result']['year']
-            context = super().get_context_data(**kwargs)
             context['result'] = response['result']
             if client.is_authenticated:
-                self.set_button_later(self.myshows_id)
-                self.set_button_full(self.myshows_id)
-                context['show_button_later'] = self.show_button_later
-                context['show_button_full'] = self.show_button_full
+                context['show_button_later'] = self.show_button_later(myshows_id)
+                context['show_button_full'] = self.show_button_full(myshows_id)
         return context
 
     def post(self, request, *args, **kwargs):
         """Handle POST requests."""
-        self.get_context_data(**kwargs)
         if 'add_later' in request.POST:
-            create_show_later(self.myshows_id, self.title_eng, self.year)
-            return redirect('detail', myshows_id=self.myshows_id)
+            myshows_id = int(request.POST['add_later'])
+            create_show_later(myshows_id)
+            return redirect('detail', myshows_id)
         if 'add_full' in request.POST:
-            create_show_full(self.myshows_id, self.title_eng, self.year)
-            if not self.show_button_later:
-                delete_show_later(self.id)
-            return redirect('detail', myshows_id=self.myshows_id)
+            myshows_id = int(request.POST['add_full'])
+            create_show_full(myshows_id)
+            for show in list_later_watch_show():
+                if show["myshows_id"] == myshows_id:
+                    delete_show_later(show['id'])
+            return redirect('detail', myshows_id)
 
-    def set_button_later(self, myshows_id):
+    def show_button_later(self, myshows_id):
         """Setting the flag of displaying the button "Going to watch"."""
-        list_later_watch = list_later_watch_show()
-        for show in list_later_watch:
+        for show in list_later_watch_show():
             if show["myshows_id"] == myshows_id:
-                self.show_button_later = False
-                self.id = show['id']
+                return False
+        return True
 
-    def set_button_full(self, myshows_id):
+    def show_button_full(self, myshows_id):
         """Setting the flag of displaying the button "Watched all"."""
-        list_full_watched = list_full_watched_show()
-        for show in list_full_watched:
+        for show in list_full_watched_show():
             if show["myshows_id"] == myshows_id:
-                self.show_button_full = False
+                return False
+        return True

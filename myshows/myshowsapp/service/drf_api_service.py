@@ -1,6 +1,7 @@
 """Module for making REST API calls to get information from the database."""
 
 from .auth_api_service import client
+from .myshows_api_service import myshows_getbyid
 
 
 DRF_API_URL = 'http://127.0.0.1:8000/api/'
@@ -20,14 +21,20 @@ def list_full_watched_show():
     return shows
 
 
-def create_show_later(myshows_id, title_eng, year):
+def create_show_later(myshows_id):
     """Adding an object to LaterWatchShow model using REST API."""
+    response = myshows_getbyid(myshows_id)
+    title_eng = response['result']['titleOriginal']
+    year = response['result']['year']
     data = {"myshows_id": myshows_id, "title_eng": title_eng, "year": year}
     client.session.post(f'{DRF_API_URL}later-watch-shows/', data)
 
 
-def create_show_full(myshows_id, title_eng, year):
+def create_show_full(myshows_id):
     """Adding an object to LaterWatchShow model using REST API."""
+    response = myshows_getbyid(myshows_id)
+    title_eng = response['result']['titleOriginal']
+    year = response['result']['year']
     data = {"myshows_id": myshows_id, "title_eng": title_eng, "year": year}
     client.session.post(f'{DRF_API_URL}full-watched-shows/', data)
 

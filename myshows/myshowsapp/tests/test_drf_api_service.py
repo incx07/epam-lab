@@ -1,8 +1,12 @@
 """Creating tests for Django REST Framework API service."""
 
+from unittest.mock import patch
 import requests_mock
 from django.test import SimpleTestCase
-from ..service.drf_api_service import list_later_watch_show, list_full_watched_show, DRF_API_URL
+from ..service.drf_api_service import (
+    list_later_watch_show, list_full_watched_show, create_show_later, 
+    create_show_full, DRF_API_URL
+) 
 
 
 @requests_mock.Mocker()
@@ -22,6 +26,7 @@ class DRFAPIServiceTest(SimpleTestCase):
         ]
         mock.get(f'{DRF_API_URL}later-watch-shows/', json=return_data, status_code=200)
         response = list_later_watch_show()
+        self.assertEqual(mock.call_count, 1)
         self.assertEqual(sorted_data, response)
 
     def test_list_full_watched_show(self, mock):
@@ -37,4 +42,21 @@ class DRFAPIServiceTest(SimpleTestCase):
         ]
         mock.get(f'{DRF_API_URL}full-watched-shows/', json=return_data, status_code=200)
         response = list_full_watched_show()
+        self.assertEqual(mock.call_count, 1)
         self.assertEqual(sorted_data, response)
+
+    @patch('myshowsapp.service.drf_api_service.myshows_getbyid')
+    def test_create_show_later(self, mock, mock_myshows_getbyid):
+        mock.post(f'{DRF_API_URL}later-watch-shows/', status_code=201)
+        create_show_later(myshows_id=123)
+        self.assertEqual(mock_myshows_getbyid.call_count, 1)
+        self.assertEqual(mock.call_count, 1)
+
+    @patch('myshowsapp.service.drf_api_service.myshows_getbyid')
+    def test_create_show_full(self, mock, mock_myshows_getbyid):
+        mock.post(f'{DRF_API_URL}full-watched-shows/', status_code=201)
+        create_show_full(myshows_id=123)
+        self.assertEqual(mock_myshows_getbyid.call_count, 1)
+        self.assertIsNone((mock_myshows_getbyid.assert_called_once_with(123)))
+        self.assertEqual(mock.call_count, 1)
+    

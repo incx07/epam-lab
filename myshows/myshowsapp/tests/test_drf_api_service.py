@@ -4,9 +4,9 @@ from unittest.mock import patch
 import requests_mock
 from django.test import SimpleTestCase
 from ..service.drf_api_service import (
-    list_later_watch_show, list_full_watched_show, create_show_later, 
-    create_show_full, DRF_API_URL
-) 
+    list_later_watch_show, list_full_watched_show, create_show_later,
+    create_show_full, delete_show_later, delete_show_full, set_rating, DRF_API_URL
+)
 
 
 @requests_mock.Mocker()
@@ -49,14 +49,30 @@ class DRFAPIServiceTest(SimpleTestCase):
     def test_create_show_later(self, mock, mock_myshows_getbyid):
         mock.post(f'{DRF_API_URL}later-watch-shows/', status_code=201)
         create_show_later(myshows_id=123)
-        self.assertEqual(mock_myshows_getbyid.call_count, 1)
+        mock_myshows_getbyid.assert_called_once_with(123)
         self.assertEqual(mock.call_count, 1)
 
     @patch('myshowsapp.service.drf_api_service.myshows_getbyid')
     def test_create_show_full(self, mock, mock_myshows_getbyid):
         mock.post(f'{DRF_API_URL}full-watched-shows/', status_code=201)
         create_show_full(myshows_id=123)
-        self.assertEqual(mock_myshows_getbyid.call_count, 1)
-        self.assertIsNone((mock_myshows_getbyid.assert_called_once_with(123)))
+        mock_myshows_getbyid.assert_called_once_with(123)
         self.assertEqual(mock.call_count, 1)
-    
+
+    def test_delete_show_later(self, mock):
+        test_id = 123
+        mock.delete(f'{DRF_API_URL}later-watch-shows/{test_id}', status_code=204)
+        delete_show_later(id=test_id)
+        self.assertEqual(mock.call_count, 1)
+
+    def test_delete_show_full(self, mock):
+        test_id = 123
+        mock.delete(f'{DRF_API_URL}full-watched-shows/{test_id}', status_code=204)
+        delete_show_full(id=test_id)
+        self.assertEqual(mock.call_count, 1)
+
+    def test_set_rating(self, mock):
+        test_id = 123
+        mock.patch(f'{DRF_API_URL}full-watched-shows/{test_id}/', status_code=200)
+        set_rating(id=test_id, rating=4)
+        self.assertEqual(mock.call_count, 1)

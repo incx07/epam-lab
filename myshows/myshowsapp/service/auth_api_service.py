@@ -36,8 +36,8 @@ class JWTAuth:
             if response.status_code == 200:
                 self.username = response.json()['username']
                 return self.username
-            else:
-                return None
+            return None
+        return None
 
     def refresh(self, refresh_token):
         response = requests.post(self.url_refresh, json={'refresh': refresh_token})

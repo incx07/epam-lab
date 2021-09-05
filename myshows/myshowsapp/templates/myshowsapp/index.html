@@ -6,7 +6,7 @@
 <div class="row">
   <div class="col-sm">
     <h5 class="text-center">Watched all:</h5>
-    {% for serial in serials_full %}
+    {% for serial in list_watched_all %}
     <div class="shadow p-3 mb-5 bg-white rounded">
       <div class="row">
         <div class="col-5">
@@ -45,12 +45,12 @@
       </div>
     </div>
     {% endfor %}
-    {% include "myshowsapp/pagination.html" with page=serials_full page_num='page2'%}
+    {% include "myshowsapp/pagination.html" with page=list_watched_all page_num='page2'%}
   </div>
 
   <div class="col-sm">
     <h5 class="text-center">Going to watch:</h5>
-    {% for serial in serials_later %}
+    {% for serial in list_going_to_watch %}
     <div class="shadow p-3 mb-5 bg-white rounded">
       <div class="row">
         <div class="col">
@@ -67,7 +67,7 @@
       </div>
     </div>
     {% endfor %}
-    {% include "myshowsapp/pagination.html" with page=serials_later page_num='page1'%}
+    {% include "myshowsapp/pagination.html" with page=list_going_to_watch page_num='page1'%}
   </div>
 </div>
 {% endblock %}

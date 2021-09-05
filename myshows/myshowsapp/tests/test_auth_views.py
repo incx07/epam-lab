@@ -47,11 +47,11 @@ class AuthViewsTest(SimpleTestCase):
         credential = {
             'username':'test user',
             'email': 'test@test.com',
-            'password':'Password111',
-            're_password':'Password111'
+            'password':'Pass1111',
+            're_password':'Pass1111'
         }
         response = self.client.post(reverse('register'), data=credential)
-        self.assertTrue(mock_register.called)
+        mock_register.assert_called_once_with('test user', 'test@test.com', 'Pass1111', 'Pass1111')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/register.html')
         self.assertEqual(response.context['usernamevalue'], 'test user')
@@ -68,7 +68,7 @@ class AuthViewsTest(SimpleTestCase):
     def test_redirect_after_enter_email(self, mock_pwd_reset_by_email):
         credential = {'email': 'test@test.com'}
         response = self.client.post(reverse('password_reset'), data=credential)
-        self.assertTrue(mock_pwd_reset_by_email.called)
+        mock_pwd_reset_by_email.assert_called_once_with('test@test.com')
         self.assertRedirects(response, '/password-reset/done/')
 
 
@@ -90,20 +90,24 @@ class AuthViewsTest(SimpleTestCase):
     @patch('myshowsapp.views.auth_views.pwd_reset_confirm')
     def test_redirect_after_success_password_confirm(self, mock_pwd_reset_confirm):
         kwargs = {'uidb64': 'MTU', 'token': 'as5hc6-5603ac7359b3e39aa4d840b08049708e'}
-        credential = {'password': 'Password111','re_password': 'Password111'}
+        credential = {'password': 'Pass1111','re_password': 'Pass1111'}
         mock_pwd_reset_confirm.return_value = {'success': 'The password has been changed!'}
         response = self.client.post(reverse('password_reset_confirm', kwargs=kwargs), data=credential)
-        self.assertTrue(mock_pwd_reset_confirm.called)
+        mock_pwd_reset_confirm.assert_called_once_with(
+            'MTU', 'as5hc6-5603ac7359b3e39aa4d840b08049708e', 'Pass1111', 'Pass1111'
+        )
         self.assertRedirects(response, '/password-reset/complete/')
 
 
     @patch('myshowsapp.views.auth_views.pwd_reset_confirm')
     def test_redirect_after_invalid_password_confirm(self, mock_pwd_reset_confirm):
         kwargs = {'uidb64': 'MTU', 'token': 'as5hc6-5603ac7359b3e39aa4d840b08049708e'}
-        credential = {'password': 'Password111','re_password': 'Password11'}
+        credential = {'password': 'Pass1112','re_password': 'Pass1111'}
         mock_pwd_reset_confirm.return_value = {'errors': 'The two password fields did not match.'}
         response = self.client.post(reverse('password_reset_confirm', kwargs=kwargs), data=credential)
-        self.assertTrue(mock_pwd_reset_confirm.called)
+        mock_pwd_reset_confirm.assert_called_once_with(
+            'MTU', 'as5hc6-5603ac7359b3e39aa4d840b08049708e', 'Pass1112', 'Pass1111'
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/password_reset_confirm.html')
         self.assertEqual(response.context['errors'], 'The two password fields did not match.')

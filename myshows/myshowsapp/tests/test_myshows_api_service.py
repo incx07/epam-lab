@@ -22,6 +22,7 @@ class MyShowsAPIServiceTest(SimpleTestCase):
         mock.post(MYSHOWS_API_URL, json=return_data, status_code=200)
         response = myshows_search('Test')
         self.assertEqual(response, return_data)
+        self.assertEqual(mock.call_count, 1)
 
     def test_myshows_getbyid_success(self, mock):
         """Test myshows_getbyid funtion with successful request."""
@@ -43,4 +44,5 @@ class MyShowsAPIServiceTest(SimpleTestCase):
         }
         mock.post(MYSHOWS_API_URL, json=return_data, status_code=200)
         response = myshows_getbyid(60000000)
-        self.assertEqual(response, 'not found')
+        self.assertEqual(response, {'error': 'Show was not found'})
+        self.assertEqual(mock.call_count, 1)

@@ -40,15 +40,12 @@ class SearchView(TemplateView):
 class IndexView(TemplateView):
     """Index page rendering."""
     template_name = 'myshowsapp/index.html'
-    form_class = RatingForm
-    serial_change_id = None
 
     def get(self, request, *args, **kwargs):
         """Handle GET requests."""
         if not client.is_authenticated:
             return redirect('start_page')
         context = self.get_context_data(request, **kwargs)
-        context['form_rating'] = self.form_class
         return self.render_to_response(context)
 
     def get_context_data(self, request, **kwargs):
@@ -62,8 +59,8 @@ class IndexView(TemplateView):
             serials=list_full_watched_show(),
             page=request.GET.get('page2')
         )
-        context['serials_later'] = list_later_watch_page
-        context['serials_full'] = list_full_watched_page
+        context['list_going_to_watch'] = list_later_watch_page
+        context['list_watched_all'] = list_full_watched_page
         return context
 
     def paginate(self, serials, page):
@@ -79,26 +76,23 @@ class IndexView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         """Handle POST requests."""
-        form_rating = self.form_class(request.POST)
+        form_rating = RatingForm(request.POST)
         in_context = {}
         if 'del_later' in request.POST:
-            id = request.POST['del_later']
+            id = int(request.POST['del_later'])
             delete_show_later(id)
         if 'del_full' in request.POST:
-            id = request.POST['del_full']
+            id = int(request.POST['del_full'])
             delete_show_full(id)
         if 'change_rating' in request.POST:
-            self.serial_change_id = int(request.POST['change_rating'])
+            serial_change_id = int(request.POST['change_rating'])
             in_context['form_rating'] = form_rating
-            in_context['serial_change_id'] = self.serial_change_id
+            in_context['serial_change_id'] = serial_change_id
         if 'set_rating' in request.POST:
             if form_rating.is_valid():
                 id = request.POST['set_rating']
                 rating = form_rating.cleaned_data.get('rating')
                 set_rating(id, rating)
-        if 'change_rating' in request.POST:
-            self.serial_change_id = int(request.POST['change_rating'])
-            in_context['serial_change_id'] = self.serial_change_id
         context = {**self.get_context_data(request, **kwargs), **in_context}
         return self.render_to_response(context)
 

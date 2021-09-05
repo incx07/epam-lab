@@ -20,9 +20,9 @@ class AuthViewsTest(SimpleTestCase):
     @patch('myshowsapp.forms.client')
     def test_redirect_and_set_cookie_after_success_login(self, mock_client):
         mock_client.is_authenticated = True
-        credential = {'username':'test user', 'password':'Password111'}
+        credential = {'username': 'test user', 'password': 'Password111'}
         response = self.client.post(reverse('login'), data=credential)
-        self.assertTrue(mock_client.login.called)
+        mock_client.login.assert_called_once_with('test user', 'Password111')
         self.assertIn('refresh_token=None; HttpOnly;', str(response.cookies))
         self.assertRedirects(response, '/', target_status_code=302)
 

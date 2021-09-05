@@ -90,7 +90,7 @@ class IndexView(TemplateView):
             in_context['serial_change_id'] = serial_change_id
         if 'set_rating' in request.POST:
             if form_rating.is_valid():
-                id = request.POST['set_rating']
+                id = int(request.POST['set_rating'])
                 rating = form_rating.cleaned_data.get('rating')
                 set_rating(id, rating)
         context = {**self.get_context_data(request, **kwargs), **in_context}

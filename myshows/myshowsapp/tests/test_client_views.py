@@ -276,6 +276,8 @@ class ClientViewsTest(SimpleTestCase):
         mock_list_later_watch_show.assert_called_once_with()
         mock_list_full_watched_show.assert_called_once_with()
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['list_going_to_watch'].object_list)
+        self.assertTrue(response.context['list_watched_all'].object_list)
 
 
     @patch('myshowsapp.views.client_views.list_full_watched_show')
@@ -289,3 +291,36 @@ class ClientViewsTest(SimpleTestCase):
         mock_list_later_watch_show.assert_called_once_with()
         mock_list_full_watched_show.assert_called_once_with()
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['list_going_to_watch'].object_list)
+        self.assertTrue(response.context['list_watched_all'].object_list)
+
+
+    @patch('myshowsapp.views.client_views.list_full_watched_show')
+    @patch('myshowsapp.views.client_views.list_later_watch_show')
+    def test_render_index_page_after_clicking_change_button(
+                        self, mock_list_later_watch_show, 
+                        mock_list_full_watched_show, mock_client):
+        response = self.client.post(reverse('index'), data={'change_rating': '123'})
+        mock_list_later_watch_show.assert_called_once_with()
+        mock_list_full_watched_show.assert_called_once_with()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['serial_change_id'], 123)
+        self.assertTrue(response.context['form_rating'])
+        self.assertTrue(response.context['list_going_to_watch'].object_list)
+        self.assertTrue(response.context['list_watched_all'].object_list)
+
+
+    @patch('myshowsapp.views.client_views.list_full_watched_show')
+    @patch('myshowsapp.views.client_views.list_later_watch_show')
+    @patch('myshowsapp.views.client_views.set_rating')
+    def test_render_index_page_after_clicking_change_button(
+                        self, mock_set_rating, mock_list_later_watch_show, 
+                        mock_list_full_watched_show, mock_client):
+        response = self.client.post(reverse('index'), 
+                                    data={'set_rating': '123', 'rating': '4'})
+        mock_list_later_watch_show.assert_called_once_with()
+        mock_list_full_watched_show.assert_called_once_with()
+        mock_set_rating.assert_called_once_with(123, '4')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['list_going_to_watch'].object_list)
+        self.assertTrue(response.context['list_watched_all'].object_list)

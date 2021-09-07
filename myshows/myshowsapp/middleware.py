@@ -1,3 +1,5 @@
+"""JWT Authentication middleware."""
+
 from .service.auth_api_service import client
 
 class JWTCheckMiddleware:

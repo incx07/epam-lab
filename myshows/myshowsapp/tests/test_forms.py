@@ -1,6 +1,6 @@
 from unittest.mock import patch
 from django.test import SimpleTestCase
-from ..forms import RatingForm, LoginForm, RegisterForm
+from ..forms import RatingForm, LoginForm, RegisterForm, PasswordResetForm, PasswordResetConfirmForm
 
 
 class FormsTest(SimpleTestCase):
@@ -59,8 +59,8 @@ class FormsTest(SimpleTestCase):
             'password': 'strong_password'
             }
         form = LoginForm(data=form_data)
-        #mock_client.login.assert_called_once_with('test_user', 'strong_password')
         self.assertFalse(form.is_valid())
+        mock_client.login.assert_called_once_with('test_user', 'strong_password')
         self.assertIn(
             'No active account found with the given credentials',
             str(form.errors.as_data()['__all__'])
@@ -74,8 +74,8 @@ class FormsTest(SimpleTestCase):
             'password': 'strong_password'
             }
         form = LoginForm(data=form_data)
-        #mock_client.login.assert_called_once_with('test_user', 'strong_password')
         self.assertTrue(form.is_valid())
+        mock_client.login.assert_called_once_with('test_user', 'strong_password')
 
     def test_register_form_field_labels(self):
         form = RegisterForm()
@@ -133,8 +133,6 @@ class FormsTest(SimpleTestCase):
             'errors': {
                 'password': [
                     'This password is too short. It must contain at least 8 characters.',
-                    'This password is too common.',
-                    'This password is entirely numeric.'
                 ]
             }
         }
@@ -145,9 +143,80 @@ class FormsTest(SimpleTestCase):
             're_password': '123'
             }
         form = RegisterForm(data=form_data)
-        #mock_register.assert_called_once_with('test_user', '12@12.com', '123', '123')
         self.assertFalse(form.is_valid())
+        mock_register.assert_called_once_with('test_user', '12@12.com', '123', '123')
         self.assertIn(
             'This password is too short. It must contain at least 8 characters.',
             str(form.errors.as_data()['password'])
         )
+
+    @patch('myshowsapp.forms.register')
+    def test_register_form_with_valid_credentian_data(self, mock_register):
+        form_data = {
+            'username': 'test_user',
+            'email': '12@12.com',
+            'password': 'strong_password',
+            're_password': 'strong_password'
+            }
+        form = RegisterForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        mock_register.assert_called_once_with(
+            'test_user', '12@12.com', 'strong_password', 'strong_password'
+        )
+
+    def test_password_reset_form_field_label(self):
+        form = PasswordResetForm()
+        self.assertTrue(form.fields['email'].label is None or form.fields['email'].label == 'Email address: ')
+
+    def test_password_reset_form_with_invalid_long_email(self):
+        form_data = {
+            'email': 'long_long_long_long_long_long_long_long_long_long_\
+                long_long_long_long_long_long_long_long_long_long_long_long_\
+                long_long_long_long_long_long_long@email.com'
+            }
+        form = PasswordResetForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('Enter a valid email address.', str(form.errors.as_data()['email']))
+
+    def test_password_reset_form_with_valid_data(self):
+        form_data = {'email': 'test@email.com'}
+        form = PasswordResetForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_password_reset_confirm_form_field_label(self):
+        form = PasswordResetConfirmForm()
+        self.assertTrue(form.fields['password'].label is None or form.fields['password'].label == 'New password: ')
+        self.assertTrue(form.fields['re_password'].label is None or form.fields['re_password'].label == 'New password confirmation: ')
+
+    def test_rpassword_reset_confirm_form_with_invalid_long_password(self):
+        form_data = {
+            'password': 'very_very_very_very_strong_password',
+            're_password': 'strong_password'
+            }
+        form = PasswordResetConfirmForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            'Ensure this value has at most 30 characters (it has 35).',
+            str(form.errors.as_data()['password'])
+        )
+
+    def test_rpassword_reset_confirm_form_with_invalid_long_re_password(self):
+        form_data = {
+            'password': 'strong_password',
+            're_password': 'very_very_very_very_strong_password'
+            }
+        form = PasswordResetConfirmForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            'Ensure this value has at most 30 characters (it has 35).',
+            str(form.errors.as_data()['re_password'])
+        )
+
+    def test_rpassword_reset_confirm_form_with_valid_data(self):
+        form_data = {
+            'password': 'strong_password',
+            're_password': 'strong_password'
+            }
+        form = PasswordResetConfirmForm(data=form_data)
+        self.assertTrue(form.is_valid())
+

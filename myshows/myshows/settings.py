@@ -28,12 +28,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+SITE_ID = 1
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -178,7 +180,7 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'handlers': ['console', 'file']
         }
     }

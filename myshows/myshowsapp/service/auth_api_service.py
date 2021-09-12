@@ -1,21 +1,67 @@
 """Module for making REST API calls for user authentication."""
 
 import requests
+from django.contrib.sites.models import Site
 
-AUTH_API_URL = 'http://127.0.0.1:8000/api/auth/'
+
+AUTH_API_URL = f'{Site.objects.get_current().domain}api/auth/'
 
 
 class JWTAuth:
+    """
+    Class for managing the status of the current user of the application.
+
+    ...
+
+    Attributes
+    ----------
+    url_create : str
+        the endpoint to obtain JWT
+    url_refresh : str
+        the endpoint to refresh JWT
+    session : requests.Session object
+        used when a request needs to be send with an access token in the headers
+    is_authenticated : False or True
+        the status of current user (passed to context)
+    username : str or None
+        the name of current user (passed to context)
+    access_token : str or None
+        JSON Web Token for access
+    refresh_token : str or None
+        JSON Web Token for update access token
+    error : str or None
+        the error message when login was unsuccessful
+
+    """
+
     url_create = f'{AUTH_API_URL}jwt/create/'
     url_refresh = f'{AUTH_API_URL}jwt/refresh/'
     session = requests.Session()
+    is_authenticated = False
     username = None
     access_token = None
     refresh_token = None
-    is_authenticated = False
     error = None
 
     def login(self, username, password):
+        """
+        Used to authorize a user.
+        If response contains the status 'HTTP_200_OK', we receive and save
+        access and refresh tokens.
+        If response contains the status 'HTTP_401_UNAUTHORIZED', we receive
+        and save the error message.
+
+        ...
+
+        Parameters
+        ----------
+        username : str
+            the username that the user enters in the form
+        password : str
+            the password that the user enters in the form
+
+        """
+
         credential = {
             'username': username,
             'password': password
@@ -29,6 +75,13 @@ class JWTAuth:
             self.error = response.json()['detail']
 
     def get_username(self):
+        """
+        Retrieve/update the authenticated user.
+        Executed only for authenticated user (when the access token is not None)
+        If response contains the status 'HTTP_200_OK', we receive and save
+        the name of current user.
+
+        """
         if self.access_token:
             self.session.headers.update({'Authorization': 'JWT ' + self.access_token})
             response = self.session.get(f'{AUTH_API_URL}users/me/')

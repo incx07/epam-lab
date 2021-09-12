@@ -1,10 +1,11 @@
 """Module for making REST API calls to get information from the database."""
 
+from django.contrib.sites.models import Site
 from .auth_api_service import client
 from .myshows_api_service import myshows_getbyid
 
 
-DRF_API_URL = 'http://127.0.0.1:8000/api/'
+DRF_API_URL = f'{Site.objects.get_current().domain}api/'
 
 
 def list_later_watch_show():

@@ -9,7 +9,7 @@ AUTH_API_URL = f'{Site.objects.get_current().domain}api/auth/'
 
 class JWTAuth:
     """
-    Class for managing the status of the current user of the application.
+    Class for managing the current user's status in the application.
 
     ...
 
@@ -46,7 +46,8 @@ class JWTAuth:
     def login(self, username, password):
         """
         Used to authorize a user.
-        If response contains the status 'HTTP_200_OK', we receive and save
+        If response contains the status 'HTTP_200_OK', access and refresh tokens
+        will be received and saved.
         access and refresh tokens.
         If response contains the status 'HTTP_401_UNAUTHORIZED', we receive
         and save the error message.
@@ -56,9 +57,9 @@ class JWTAuth:
         Parameters
         ----------
         username : str
-            the username that the user enters in the form
+            username value from LoginForm
         password : str
-            the password that the user enters in the form
+            password value from LoginForm
 
         """
 
@@ -92,6 +93,21 @@ class JWTAuth:
         return None
 
     def refresh(self, refresh_token):
+        """
+        Used to to refresh JWT.
+        If response contains the status 'HTTP_200_OK', new access token
+        will be received and saved in the headers of requests.Session.
+        If response contains the status 'HTTP_401_UNAUTHORIZED', headers
+        will be cleared.
+
+        ...
+
+        Parameters
+        ----------
+        refresh_token : str
+            JSON Web Token for update access token
+
+        """
         response = requests.post(self.url_refresh, json={'refresh': refresh_token})
         if response.status_code == 200:
             self.access_token = response.json()['access']
@@ -107,6 +123,28 @@ client = JWTAuth()
 
 
 def register(username, email, password, re_password):
+    """
+    Used to register new user.
+    If response contains the status 'HTTP_201_CREATED', the function returns
+    username. If response contains the status 'HTTP_400_BAD_REQUEST',
+    the function returns errors.
+
+    ...
+
+    Parameters
+    ----------
+    username : str
+        username value from RegisterForm
+    email : str
+        email value from RegisterForm (not required)
+    password : str
+        password value from RegisterForm
+    re_password : str
+        re_password value from RegisterForm
+        (required if Settings.USER_CREATE_PASSWORD_RETYPE is True)
+
+    """
+
     credential = {
         'username': username,
         'email': email,
@@ -121,10 +159,44 @@ def register(username, email, password, re_password):
 
 
 def pwd_reset_by_email(email):
+    """
+    Used to send email to user with password reset link.
+    The function doesn't return information about  whether the attempt
+    to send a email was successful, because it doesn't use in View.
+
+    ...
+
+    Parameters
+    ----------
+    email : str
+        email value from PasswordResetForm
+
+    """
     requests.post(f'{AUTH_API_URL}users/reset_password/', json={'email': email})
 
 
 def pwd_reset_confirm(uidb64, token, password, re_password):
+    """
+    Used to finish reset password process.
+    If response contains the status 'HTTP_204_NO_CONTENT', the function returns
+    message about successful password change.
+    If response contains the status 'HTTP_400_BAD_REQUEST', the function
+    returns errors.
+
+    ...
+
+    Parameters
+    ----------
+    uidb64 : str
+        uidb64 value from link in sended email
+    token : str
+        token value from link in sended email
+    password : str
+        new password value from PasswordResetConfirmForm
+    re_password : str
+        new re_password value from PasswordResetConfirmForm
+
+    """
     credential = {
         'uid': uidb64,
         'token': token,

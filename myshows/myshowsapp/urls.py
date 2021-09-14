@@ -20,7 +20,7 @@ urlpatterns = [
     re_path(r'^api/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     re_path(r'^api/auth/', include('djoser.urls')),
     re_path(r'^api/auth/', include('djoser.urls.jwt')),
-    path('', IndexView.as_view() , name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('search/', SearchView.as_view(), name='search_list'),
     path('<int:myshows_id>/', DetailView.as_view(), name='detail'),
     path('start/', StartView.as_view(), name='start_page'),

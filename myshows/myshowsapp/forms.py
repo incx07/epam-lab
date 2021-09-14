@@ -1,10 +1,12 @@
+"""Module contains forms logics for Django application."""
+
 from django.forms import Form, CharField, PasswordInput, ChoiceField, EmailField, ValidationError
 from .service.auth_api_service import client, register
 
 
 class RatingForm(Form):
     rating = ChoiceField(
-        choices= [
+        choices=[
             ('1', '1'),
             ('2', '2'),
             ('3', '3'),

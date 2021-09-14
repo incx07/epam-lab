@@ -7,6 +7,7 @@ from myshowsapp.models import LaterWatchShow, FullWatchedShow
 from myshowsapp.rest.serializers import LaterWatchDetailSerializer, FullWatchedDetailSerializer
 from myshowsapp.tests.api_tests_mixin import APITestsMixin
 
+
 class LaterWatchShowTests(APITestsMixin, APITestCase):
     """Creating test cases for API LaterWatchShow model."""
 

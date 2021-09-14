@@ -9,7 +9,15 @@ MYSHOWS_API_URL = 'https://api.myshows.me/v2/rpc/'
 def myshows_search(title):
     """
     Searching for a TV shows by title on the MyShows resource using the API
-    based on JSON-RPC 2.0
+    based on JSON-RPC 2.0.
+
+    ...
+
+    Parameters
+    ----------
+    title : str
+        title of the show to search in myshows database
+
     """
     rpc = {
             'jsonrpc': '2.0',
@@ -27,7 +35,15 @@ def myshows_search(title):
 def myshows_getbyid(myshows_id):
     """
     Getting detail information about a TV show by id on the MyShows resource
-    using API based on JSON-RPC 2.0
+    using API based on JSON-RPC 2.0.
+
+    ...
+
+    Parameters
+    ----------
+    myshows_id : int
+        myshows_id value for getting a show data in myshows database
+
     """
     rpc = {
             "jsonrpc": "2.0",

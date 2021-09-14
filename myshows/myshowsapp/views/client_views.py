@@ -1,3 +1,5 @@
+"""Module contains rendering logics for client pages."""
+
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger

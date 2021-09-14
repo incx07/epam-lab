@@ -1,3 +1,5 @@
+"""Creating tests for forms."""
+
 from unittest.mock import patch
 from django.test import SimpleTestCase
 from ..forms import RatingForm, LoginForm, RegisterForm, PasswordResetForm, PasswordResetConfirmForm
@@ -219,4 +221,3 @@ class FormsTest(SimpleTestCase):
             }
         form = PasswordResetConfirmForm(data=form_data)
         self.assertTrue(form.is_valid())
-

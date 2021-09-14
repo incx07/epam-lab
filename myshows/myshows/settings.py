@@ -28,14 +28,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
-SITE_ID = 1
+#SITE_ID = 1
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sites',
+#    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -148,7 +148,7 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
-    'PASSWORD_RESET_CONFIRM_URL':'password-reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'password-reset/confirm/{uid}/{token}',
 }
 
 SIMPLE_JWT = {

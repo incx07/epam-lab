@@ -1,10 +1,11 @@
 """Module for making REST API calls for user authentication."""
 
 import requests
-from django.contrib.sites.models import Site
+#from django.contrib.sites.models import Site
 
 
-AUTH_API_URL = f'{Site.objects.get_current().domain}api/auth/'
+#AUTH_API_URL = f'{Site.objects.get_current().domain}api/auth/'
+AUTH_API_URL = 'http://127.0.0.1:8000/api/auth/'
 
 
 class JWTAuth:

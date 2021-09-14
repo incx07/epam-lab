@@ -1,3 +1,5 @@
+"""Creating tests for Django application client views."""
+
 from unittest.mock import patch
 from django.test import SimpleTestCase
 from django.urls import reverse
@@ -6,7 +8,6 @@ from ..views.client_views import SearchView, StartView, DetailView, IndexView
 
 @patch('myshowsapp.views.client_views.client')
 class ClientViewsTest(SimpleTestCase):
-
 
     def setUp(self):
         self.myshows_getbyid_return_value = {
@@ -27,7 +28,6 @@ class ClientViewsTest(SimpleTestCase):
             },
             'id': 1
         }
-
 
     @patch('myshowsapp.views.client_views.myshows_search')
     def test_render_search_page(self, mock_myshows_search, mock_client):
@@ -50,7 +50,6 @@ class ClientViewsTest(SimpleTestCase):
         self.assertTemplateUsed(response, 'myshowsapp/search.html')
         self.assertEqual(response.context['searching_results'], expected_data)
 
-
     def test_render_start_page_for_unauthorized_user(self, mock_client):
         mock_client.is_authenticated = False
         response = self.client.get(reverse('start_page'))
@@ -58,13 +57,11 @@ class ClientViewsTest(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'myshowsapp/start.html')
 
-
     def test_render_start_page_for_authorized_user(self, mock_client):
         mock_client.is_authenticated = True
         response = self.client.get(reverse('start_page'))
         self.assertEqual(response.resolver_match.func.__name__, StartView.as_view().__name__)
         self.assertRedirects(response, '/', fetch_redirect_response=False)
-
 
     @patch('myshowsapp.views.client_views.myshows_getbyid')
     def test_render_detail_page_for_unauthorized_user(self, mock_myshows_getbyid, mock_client):
@@ -77,7 +74,6 @@ class ClientViewsTest(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'myshowsapp/detail.html')
         self.assertEqual(response.context['result'], expected_data)
-
 
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
@@ -102,7 +98,6 @@ class ClientViewsTest(SimpleTestCase):
         self.assertTrue(response.context['show_button_later'])
         self.assertTrue(response.context['show_button_full'])
 
-
     @patch('myshowsapp.views.client_views.myshows_getbyid')
     def test_render_detail_page_with_invalid_id(
                                     self, mock_myshows_getbyid, mock_client):
@@ -112,7 +107,6 @@ class ClientViewsTest(SimpleTestCase):
         response = self.client.get(reverse('detail', kwargs={'myshows_id': 12300000000}))
         mock_myshows_getbyid.assert_called_once_with(12300000000)
         self.assertEqual(response.context['not_found'], expected_data)
-
 
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
@@ -137,7 +131,6 @@ class ClientViewsTest(SimpleTestCase):
         self.assertFalse(response.context['show_button_later'])
         self.assertTrue(response.context['show_button_full'])
 
-
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
     @patch('myshowsapp.views.client_views.myshows_getbyid')
@@ -161,7 +154,6 @@ class ClientViewsTest(SimpleTestCase):
         self.assertTrue(response.context['show_button_later'])
         self.assertFalse(response.context['show_button_full'])
 
-
     @patch('myshowsapp.views.client_views.create_show_later')
     def test_render_detail_page_after_clicking_going_to_watch_button(
                                     self, mock_create_show_later, mock_client):
@@ -170,7 +162,6 @@ class ClientViewsTest(SimpleTestCase):
         mock_create_show_later.assert_called_once_with(123)
         self.assertRedirects(response, url, fetch_redirect_response=False)
         self.assertEqual(response.resolver_match.func.__name__, DetailView.as_view().__name__)
-
 
     @patch('myshowsapp.views.client_views.delete_show_later')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
@@ -189,18 +180,16 @@ class ClientViewsTest(SimpleTestCase):
         self.assertRedirects(response, url, fetch_redirect_response=False)
         self.assertEqual(response.resolver_match.func.__name__, DetailView.as_view().__name__)
 
-
     def test_render_index_page_for_unauthorized_user(self, mock_client):
         mock_client.is_authenticated = False
         response = self.client.get(reverse('index'))
         self.assertEqual(response.resolver_match.func.__name__, IndexView.as_view().__name__)
         self.assertRedirects(response, '/start/')
 
-
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
     def test_render_index_page_for_authorized_user(
-                        self, mock_list_later_watch_show, 
+                        self, mock_list_later_watch_show,
                         mock_list_full_watched_show, mock_client):
         mock_client.is_authenticated = True
         mock_list_later_watch_show.return_value = [
@@ -222,11 +211,10 @@ class ClientViewsTest(SimpleTestCase):
             mock_list_full_watched_show.return_value
         )
 
-
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
     def test_render_index_page_for_authorized_user_with_pagination(
-                        self, mock_list_later_watch_show, 
+                        self, mock_list_later_watch_show,
                         mock_list_full_watched_show, mock_client):
         mock_client.is_authenticated = True
         mock_list_later_watch_show.return_value = [
@@ -264,12 +252,11 @@ class ClientViewsTest(SimpleTestCase):
             expected_list_full_watched_show
         )
 
-
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
     @patch('myshowsapp.views.client_views.delete_show_later')
     def test_render_index_page_after_clicking_going_to_watch_delete_button(
-                        self, mock_delete_show_later, mock_list_later_watch_show, 
+                        self, mock_delete_show_later, mock_list_later_watch_show,
                         mock_list_full_watched_show, mock_client):
         response = self.client.post(reverse('index'), data={'del_later': '123'})
         mock_delete_show_later.assert_called_once_with(123)
@@ -279,12 +266,11 @@ class ClientViewsTest(SimpleTestCase):
         self.assertTrue(response.context['list_going_to_watch'].object_list)
         self.assertTrue(response.context['list_watched_all'].object_list)
 
-
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
     @patch('myshowsapp.views.client_views.delete_show_full')
     def test_render_index_page_after_clicking_watched_all_delete_button(
-                        self, mock_delete_show_full, mock_list_later_watch_show, 
+                        self, mock_delete_show_full, mock_list_later_watch_show,
                         mock_list_full_watched_show, mock_client):
         response = self.client.post(reverse('index'), data={'del_full': '123'})
         mock_delete_show_full.assert_called_once_with(123)
@@ -294,11 +280,10 @@ class ClientViewsTest(SimpleTestCase):
         self.assertTrue(response.context['list_going_to_watch'].object_list)
         self.assertTrue(response.context['list_watched_all'].object_list)
 
-
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
     def test_render_index_page_after_clicking_change_button(
-                        self, mock_list_later_watch_show, 
+                        self, mock_list_later_watch_show,
                         mock_list_full_watched_show, mock_client):
         response = self.client.post(reverse('index'), data={'change_rating': '123'})
         mock_list_later_watch_show.assert_called_once_with()
@@ -309,14 +294,13 @@ class ClientViewsTest(SimpleTestCase):
         self.assertTrue(response.context['list_going_to_watch'].object_list)
         self.assertTrue(response.context['list_watched_all'].object_list)
 
-
     @patch('myshowsapp.views.client_views.list_full_watched_show')
     @patch('myshowsapp.views.client_views.list_later_watch_show')
     @patch('myshowsapp.views.client_views.set_rating')
-    def test_render_index_page_after_clicking_change_button(
-                        self, mock_set_rating, mock_list_later_watch_show, 
+    def test_render_index_page_after_clicking_save_button(
+                        self, mock_set_rating, mock_list_later_watch_show,
                         mock_list_full_watched_show, mock_client):
-        response = self.client.post(reverse('index'), 
+        response = self.client.post(reverse('index'),
                                     data={'set_rating': '123', 'rating': '4'})
         mock_list_later_watch_show.assert_called_once_with()
         mock_list_full_watched_show.assert_called_once_with()

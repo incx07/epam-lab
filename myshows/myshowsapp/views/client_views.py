@@ -47,19 +47,19 @@ class IndexView(TemplateView):
         """Handle GET requests."""
         if not client.is_authenticated:
             return redirect('start_page')
-        context = self.get_context_data(request, **kwargs)
+        context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
 
-    def get_context_data(self, request, **kwargs):
+    def get_context_data(self, **kwargs):
         """Insert data into the context dict."""
         context = super().get_context_data(**kwargs)
         list_later_watch_page = self.paginate(
             serials=list_later_watch_show(),
-            page=request.GET.get('page1')
+            page=self.request.GET.get('page1')
         )
         list_full_watched_page = self.paginate(
             serials=list_full_watched_show(),
-            page=request.GET.get('page2')
+            page=self.request.GET.get('page2')
         )
         context['list_going_to_watch'] = list_later_watch_page
         context['list_watched_all'] = list_full_watched_page
@@ -95,7 +95,7 @@ class IndexView(TemplateView):
                 id = int(request.POST['set_rating'])
                 rating = form_rating.cleaned_data.get('rating')
                 set_rating(id, rating)
-        context = {**self.get_context_data(request, **kwargs), **in_context}
+        context = {**self.get_context_data(**kwargs), **in_context}
         return self.render_to_response(context)
 
 

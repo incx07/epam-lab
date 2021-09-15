@@ -5,6 +5,7 @@ from .service.auth_api_service import client, register
 
 
 class RatingForm(Form):
+    """Form for selecting the rating of the series."""
     rating = ChoiceField(
         choices=[
             ('1', '1'),
@@ -18,6 +19,7 @@ class RatingForm(Form):
 
 
 class LoginForm(Form):
+    """Form for user's authentication."""
     username = CharField(max_length=150, label='Username: ')
     password = CharField(max_length=30, label='Password: ', widget=PasswordInput)
 
@@ -32,6 +34,7 @@ class LoginForm(Form):
 
 
 class RegisterForm(Form):
+    """Form for user's registration."""
     username = CharField(max_length=150, label='Username: ')
     email = EmailField(max_length=200, label='Email address: ', required=False)
     password = CharField(max_length=30, label='Password: ', widget=PasswordInput)
@@ -48,15 +51,17 @@ class RegisterForm(Form):
             for error_field, error_value in response['errors'].items():
                 if 'non_field_errors' in error_field:
                     raise ValidationError(error_value)
-                else:
-                    self.add_error(error_field, error_value)
+                self.add_error(error_field, error_value)
         return cleaned_data
 
 
 class PasswordResetForm(Form):
+    """Form for enter email where password reset link will send."""
     email = EmailField(max_length=200, label='Email address: ')
 
 
 class PasswordResetConfirmForm(Form):
+    """Form for enter new password."""
     password = CharField(max_length=30, label='New password: ', widget=PasswordInput)
-    re_password = CharField(max_length=30, label='New password confirmation: ', widget=PasswordInput)
+    re_password = CharField(max_length=30, label='New password confirmation: ',
+                            widget=PasswordInput)

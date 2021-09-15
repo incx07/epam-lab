@@ -72,8 +72,7 @@ class PasswordResetConfirmView(FormView):
         if 'errors' in response:
             context = {'form': form, 'errors': response['errors']}
             return self.render_to_response(context)
-        else:
-            return redirect('password_reset_complete')
+        return redirect('password_reset_complete')
 
 
 class PasswordResetCompleteView(TemplateView):

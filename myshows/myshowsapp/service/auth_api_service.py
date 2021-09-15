@@ -155,7 +155,7 @@ def register(username, email, password, re_password):
     response = requests.post(f'{AUTH_API_URL}users/', json=credential)
     if response.status_code == 201:
         return {'username': response.json()['username']}
-    if response.status_code == 400:
+    else:  # response.status_code == 400
         return {'errors': response.json()}
 
 
@@ -207,7 +207,7 @@ def pwd_reset_confirm(uidb64, token, password, re_password):
     response = requests.post(f'{AUTH_API_URL}users/reset_password_confirm/', json=credential)
     if response.status_code == 204:
         return {'success': 'The password has been changed!'}
-    if response.status_code == 400:
+    else:  # response.status_code == 400
         for key in response.json():
             errors = response.json()[key]
         return {'errors': errors}

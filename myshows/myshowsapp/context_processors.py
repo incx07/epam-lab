@@ -14,7 +14,6 @@ def client_auth(request):
     It required by apps that use JWT Authentication system.
     Adds context variables with information about current user to the context.
     """
-    """A context processor that provides 'is_authenticated' and 'username'."""
     return {
         'is_authenticated': client.is_authenticated,
         'username': client.get_username()

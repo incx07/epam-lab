@@ -5,6 +5,7 @@ on:
     branches:
     - develop
     - master
+    - step12
 
 jobs:
   docker:

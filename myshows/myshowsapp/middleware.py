@@ -1,3 +1,4 @@
+# pylint: disable=too-few-public-methods
 """Custom JWT Authentication middleware."""
 
 #from django.urls import reverse

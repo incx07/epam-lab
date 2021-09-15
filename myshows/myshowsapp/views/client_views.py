@@ -65,7 +65,8 @@ class IndexView(TemplateView):
         context['list_watched_all'] = list_full_watched_page
         return context
 
-    def paginate(self, serials, page):
+    @staticmethod
+    def paginate(serials, page):
         """Django standard pagination."""
         paginator = Paginator(serials, 5)
         try:
@@ -131,14 +132,16 @@ class DetailView(TemplateView):
                     delete_show_later(show['id'])
             return redirect('detail', myshows_id)
 
-    def show_button_later(self, myshows_id):
+    @staticmethod
+    def show_button_later(myshows_id):
         """Setting the flag of displaying the button "Going to watch"."""
         for show in list_later_watch_show():
             if show["myshows_id"] == myshows_id:
                 return False
         return True
 
-    def show_button_full(self, myshows_id):
+    @staticmethod
+    def show_button_full(myshows_id):
         """Setting the flag of displaying the button "Watched all"."""
         for show in list_full_watched_show():
             if show["myshows_id"] == myshows_id:

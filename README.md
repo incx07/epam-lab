@@ -38,7 +38,7 @@ You must go to the working directory of project (where is docker-compose.yml).
 
 Then type the following command:
 
-    docker-compose up
+    docker-compose up --build
 
 Press Enter to run project.
 

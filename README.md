@@ -1,9 +1,8 @@
-### My training project for EPAM
+# Myshows App
 
 [![build](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/) [![Coverage Status](https://coveralls.io/repos/github/incx07/epam-lab/badge.svg?branch=develop)](https://coveralls.io/github/incx07/epam-lab?branch=develop)
 
 ## Overall Description
-______________
 
 “MyShows App” is web-application which allows users to show information about TV series. Information is reading from base of myshows.me (API based on [JSON-RPC](https://api.myshows.me/shared/doc/)).
   
@@ -18,14 +17,12 @@ Information about users and added series is stored in a separate database.
 See [documentation](https://github.com/incx07/epam-lab/blob/step12/documentation/Software%20Requirements%20Specification.md) for more information.
 
 ## Installation
-______________
 
 #### 1. Install Docker
 
 Before installation the application you must download and install Docker. Refer to the following [link](https://docs.docker.com/get-docker/) and choose the best installation path for you.
 
 #### 2. Clone repository from GitHub
-______________
 
 Change the current working directory to the location where you want the cloned directory.
 
@@ -36,7 +33,6 @@ Type the following command:
 Press Enter to create your local clone.
 
 ## Run project
-______________
 
 You must go to the working directory of project (where is docker-compose.yml). 
 
@@ -47,7 +43,6 @@ Then type the following command:
 Press Enter to run project.
 
 ## Use project
-______________
 
 The following addresses will be available after launch:
 

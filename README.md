@@ -2,7 +2,7 @@
 
 [![build](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/badge.svg)](https://github.com/incx07/epam-lab/actions/workflows/build-docker.yml/) [![Coverage Status](https://coveralls.io/repos/github/incx07/epam-lab/badge.svg?branch=develop)](https://coveralls.io/github/incx07/epam-lab?branch=develop)
 
-## Overall Description
+## Description
 
 “MyShows App” is web-application which allows users to show information about TV series. Information is reading from base of myshows.me (API based on [JSON-RPC](https://api.myshows.me/shared/doc/)).
   

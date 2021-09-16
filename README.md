@@ -28,7 +28,7 @@ Change the current working directory to the location where you want the cloned d
 
 Type the following command:
 
-    git clone https://github.com/incx07/epam-lab/
+    $ git clone https://github.com/incx07/epam-lab/
 
 Press Enter to create your local clone.
 
@@ -38,7 +38,7 @@ You must go to the working directory of project (where is docker-compose.yml).
 
 Then type the following command:
 
-    docker-compose up --build
+    $ docker-compose up --build
 
 Press Enter to run project.
 

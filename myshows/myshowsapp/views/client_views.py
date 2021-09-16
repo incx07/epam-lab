@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name,redefined-builtin
 """Module contains rendering logics for client pages."""
 
 from django.shortcuts import redirect
@@ -123,14 +124,13 @@ class DetailView(TemplateView):
         if 'add_later' in request.POST:
             myshows_id = int(request.POST['add_later'])
             create_show_later(myshows_id)
-            return redirect('detail', myshows_id)
         if 'add_full' in request.POST:
             myshows_id = int(request.POST['add_full'])
             create_show_full(myshows_id)
             for show in list_later_watch_show():
                 if show["myshows_id"] == myshows_id:
                     delete_show_later(show['id'])
-            return redirect('detail', myshows_id)
+        return redirect('detail', myshows_id)
 
     @staticmethod
     def show_button_later(myshows_id):

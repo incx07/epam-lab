@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name,redefined-builtin
 """Module for making REST API calls to get information from the database."""
 
 #from django.contrib.sites.models import Site

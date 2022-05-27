@@ -1,0 +1,18 @@
+{% extends 'myshowsapp/base.html' %}
+
+{% block content %}
+
+{% for serial in searching_results %}
+
+<div class="list-group list-group-flush">
+  <a href="{% url 'detail' myshows_id=serial.id %}" class="list-group-item list-group-item-action">{{ serial.title_eng }}</a>
+</div>
+
+{% empty %}
+<div class="list-group list-group-flush">
+  <p>No results...</p>
+</div>
+
+{% endfor %}
+
+{% endblock %}

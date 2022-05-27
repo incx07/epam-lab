@@ -1,0 +1,73 @@
+{% extends 'myshowsapp/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm">
+    <h5 class="text-center">Watched all:</h5>
+    {% for serial in list_watched_all %}
+    <div class="shadow p-3 mb-5 bg-white rounded">
+      <div class="row">
+        <div class="col-5">
+          <a href="{% url 'detail' myshows_id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }}</a>
+        </div>
+        {% if serial_change_id == serial.id %}
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ form_rating|crispy }}
+        </div>
+
+        <div class="col">
+          <button type="submit" name="set_rating" value="{{ serial.id }}" class="btn btn-primary">Save</button>
+        </div>
+        </form>
+        {% else %}
+        <div class="col">
+          Rating: {{ serial.rating }}
+        </div>
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" name="change_rating" value="{{ serial.id }}" class="btn btn-primary">Change</button>
+        </div>
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" name="del_full" value="{{ serial.id }}" class="close" aria-label="Close">
+              <span class="align-text-top" aria-hidden="true"> &times; </span>
+            </button>
+          </form>
+        </div>
+        {% endif %}
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+    {% include "myshowsapp/pagination.html" with page=list_watched_all page_num='page2'%}
+  </div>
+
+  <div class="col-sm">
+    <h5 class="text-center">Going to watch:</h5>
+    {% for serial in list_going_to_watch %}
+    <div class="shadow p-3 mb-5 bg-white rounded">
+      <div class="row">
+        <div class="col">
+          <a href="{% url 'detail' myshows_id=serial.myshows_id %}">{{ serial.title_eng }}, {{ serial.year }} </a>
+        </div>
+        <div class="col">
+          <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" name="del_later" value="{{ serial.id }}" class="close" aria-label="Close">
+              <span class="align-text-top" aria-hidden="true"> &times; </span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% include "myshowsapp/pagination.html" with page=list_going_to_watch page_num='page1'%}
+  </div>
+</div>
+{% endblock %}

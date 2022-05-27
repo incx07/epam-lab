@@ -21,7 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('myshowsapp.urls')),
+    path('', include('myshowsapp.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

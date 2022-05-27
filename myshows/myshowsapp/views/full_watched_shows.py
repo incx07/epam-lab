@@ -21,6 +21,6 @@ class FullWatchedShowViewSet(viewsets.ModelViewSet):
         serializer.save(user_link=self.request.user)
 
     def get_queryset(self):
-        """List of shows will be filtered by owner and return the queryset"""
+        """List of shows will be filtered by owner and return the queryset."""
         owner_queryset = self.queryset.filter(user_link=self.request.user)
         return owner_queryset

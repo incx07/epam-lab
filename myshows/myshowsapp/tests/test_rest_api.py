@@ -7,6 +7,7 @@ from myshowsapp.models import LaterWatchShow, FullWatchedShow
 from myshowsapp.rest.serializers import LaterWatchDetailSerializer, FullWatchedDetailSerializer
 from myshowsapp.tests.api_tests_mixin import APITestsMixin
 
+
 class LaterWatchShowTests(APITestsMixin, APITestCase):
     """Creating test cases for API LaterWatchShow model."""
 
@@ -32,7 +33,7 @@ class FullWatchedShowTests(APITestsMixin, APITestCase):
 
 
     def test_create_action_with_invalid_rating(self):
-        """ Test POST request when field 'rating' has invalid choice."""
+        """Test POST request when field 'rating' has invalid choice."""
         objects_count = self.model.objects.count()
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + self.access_token)
         url = reverse(f'{self.base_url}-list')

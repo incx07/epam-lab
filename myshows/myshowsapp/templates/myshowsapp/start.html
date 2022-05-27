@@ -1,0 +1,14 @@
+{% extends 'myshowsapp/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="mx-auto text-center">
+  <img src="{% static "myshowsapp/tv.png" %}" width=200>
+  <h1 class="display-4">Welcome!</h1>
+  <h6>There is training Django-project. You can find information about any TV series.</h6>
+  <h6>If you have an account, you can add the TV series to your own watch lists.</h6>
+  <a class="btn btn-outline-primary" href="{% url 'login' %}">Login / Registration</a>
+</div>
+
+{% endblock %}

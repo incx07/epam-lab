@@ -1,0 +1,62 @@
+{% extends 'myshowsapp/base.html' %}
+
+{% block content %}
+
+{% if not_found %}
+
+<div class="alert alert-danger" role="alert">
+    {{ not_found }}
+</div>
+
+{% else %}
+
+<div class="row">
+  <div class="col-6">
+    <h2>{{ result.title }}</h2>
+    <h5>{{ result.titleOriginal }}, {{ result.year }}</h5>
+  </div>
+  <div class="col-6">
+    <form action="" method="post">
+      {% csrf_token %}
+      {% if show_button_later and show_button_full %}
+      <button class="btn btn-outline-info btn-lg" name="add_later" value="{{ result.id }}" type="submit">Going to watch</button>
+      {% endif %}
+      {% if show_button_full %}
+      <button class="btn btn-outline-success btn-lg" name="add_full" value="{{ result.id }}" type="submit">Watched all</button>
+      {% endif %}
+    </form>
+  </div>
+</div>
+{% if is_authenticated %}
+  {% if not show_button_later %}
+    <div class="alert alert-info" role="alert">I am going to watch this show!</div>
+  {% endif %}
+  {% if not show_button_full %}
+    <div class="alert alert-success" role="alert">I fully watched this show!</div>
+  {% endif %}
+{% endif %}
+<p></p>
+<div class="row">
+  <div class="col">
+    <img src="{{ result.image }}" width=500>
+  </div>
+  <div class="col">
+    <p>Страна: {{ result.countryTitle }}</p>
+    <p>Телеканал: {{ result.network.title }}</p>
+    <p>Статус: {{ result.status }}</p>
+    <p>Период показа: {{ result.started }} - {{ result.ended }}</p>
+    <p>Количество сезонов: {{ result.totalSeasons }}</p>
+    <p>Рейтинг КиноПоиска: <a href="{{ result.kinopoiskUrl }}">{{ result.kinopoiskRating }}</a></p>
+    <p>Рейтинг IMDB: <a href="{{ result.imdbUrl }}">{{ result.imdbRating }}</a></p>
+  </div>
+</div>
+<p></p>
+<div class="card">
+  <div class="card-body">
+    {{ result.description|safe }}
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

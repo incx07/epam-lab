@@ -1,7 +1,11 @@
 [run]
+source = myshows,myshowsapp
+
+[report]
 omit =
-    myshows/manage.py
+    manage.py
     setup.py
     */migrations/*
+     */tests/*
     *wsgi.py
     *asgi.py

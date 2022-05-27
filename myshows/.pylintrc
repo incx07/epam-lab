@@ -17,7 +17,8 @@ fail-under=10.0
 # Files or directories to be skipped. They should be base names, not paths.
 ignore=CVS,
        migrations,
-       manage.py
+       manage.py,
+       tests
 
 # Files or directories matching the regex patterns are skipped. The regex
 # matches against base names, not paths.
@@ -38,7 +39,8 @@ limit-inference-results=100
 
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
-load-plugins=
+load-plugins=pylint_django,
+django-settings-module=myshows.settings
 
 # Pickle collected data for later comparisons.
 persistent=yes
@@ -502,7 +504,7 @@ ignore-docstrings=yes
 ignore-imports=no
 
 # Minimum lines number of a similarity.
-min-similarity-lines=4
+min-similarity-lines=10
 
 
 [DESIGN]
@@ -523,7 +525,7 @@ max-branches=12
 max-locals=15
 
 # Maximum number of parents for a class (see R0901).
-max-parents=7
+max-parents=15
 
 # Maximum number of public methods for a class (see R0904).
 max-public-methods=20

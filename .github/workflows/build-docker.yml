@@ -13,9 +13,21 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: Start containers
       run: docker-compose up --detach --build
+    - name: Install Dependencies
+      run: | 
+        docker exec epam-lab_web_1 python -m pip install --upgrade pip
+        docker exec epam-lab_web_1 pip install coveralls pylint-django
+    - name: Analysing the code with pylint
+      run: docker exec epam-lab_web_1 pylint myshowsapp
+    - name: Run tests
+      run: docker exec epam-lab_web_1 coverage run manage.py test
+    - name: Coveralls
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: docker exec -e COVERALLS_REPO_TOKEN="$GITHUB_TOKEN" epam-lab_web_1 coveralls --service=github
     - name: Stop containers
       if: always()
       run: docker-compose down
